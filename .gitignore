@@ -1,0 +1,9 @@
+/node_modules
+/.next
+/out
+*.tsbuildinfo
+.DS_Store
+package-lock.json
+yarn.lock
+bun.lock
+bun.lockb
