@@ -52,7 +52,7 @@ The barrel `import { Button } from "caliper-ui"` still works. Other entry points
 | `Button`                  | Variants and sizes on a native `<button>` |
 | `Input`                   | Native text input                         |
 | `Field`                   | Visible label, hint, and error            |
-| `Select`                  | Native `<select>`                         |
+| `Select`                  | Dropdown picker with a hidden `<select>`  |
 | `DropdownMenu`            | Native `popover` menu, submenu, separator |
 | `Slider`                  | Native range input                        |
 | `Gauge`                   | Native `<meter>` plus a numeric readout   |

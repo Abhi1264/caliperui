@@ -155,8 +155,7 @@
 
 .eyebrow,
 .sectionKicker,
-.panelLabel,
-.microLabel {
+.panelLabel {
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -212,8 +211,12 @@
 }
 
 .installTab {
+  position: relative;
+  display: flex;
   flex: 1;
   min-height: 36px;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-right: 1px solid var(--line);
   background: transparent;
@@ -222,7 +225,17 @@
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.06em;
+  text-align: center;
   text-transform: uppercase;
+}
+
+.installTab input {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
 }
 
 .installTab:last-child {
@@ -230,18 +243,25 @@
 }
 
 .installTab:hover,
-.installTab[data-active="true"] {
+.installTab:has(input:checked) {
   background: var(--surface-hover);
   color: var(--ink);
 }
 
 .installRow {
-  display: flex;
+  display: none;
   min-height: 44px;
   align-items: stretch;
   border: 1px solid var(--line-strong);
   border-radius: 0 0 4px 4px;
   background: var(--surface);
+}
+
+.install:has(input[value="pnpm"]:checked) .installRow[data-manager="pnpm"],
+.install:has(input[value="npm"]:checked) .installRow[data-manager="npm"],
+.install:has(input[value="yarn"]:checked) .installRow[data-manager="yarn"],
+.install:has(input[value="bun"]:checked) .installRow[data-manager="bun"] {
+  display: flex;
 }
 
 .installPrompt {
@@ -273,14 +293,6 @@
 .installCopy:hover {
   background: var(--surface-hover);
   color: var(--ink);
-}
-
-.copyFeedback {
-  min-height: 16px;
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
 }
 
 .sandbox {
@@ -319,10 +331,16 @@
   padding: 24px;
 }
 
-.microLabel {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 10px;
+.previewPanel {
+  display: none;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.previewPanel[data-active] {
+  display: flex;
 }
 
 .variantControls {
@@ -334,49 +352,6 @@
 .variantButton {
   width: 100%;
   min-height: 36px;
-}
-
-.gauge {
-  position: relative;
-  display: flex;
-  min-height: 148px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 16px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-}
-
-.tick {
-  position: absolute;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-}
-
-.tick[data-edge="top"] {
-  top: 8px;
-}
-
-.tick[data-edge="bottom"] {
-  bottom: 8px;
-}
-
-.tick[data-edge="left"] {
-  left: 10px;
-}
-
-.tick[data-edge="right"] {
-  right: 10px;
-}
-
-.lastAction {
-  min-height: 16px;
-  margin: 12px 0 0;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
 }
 
 .dialogStage {

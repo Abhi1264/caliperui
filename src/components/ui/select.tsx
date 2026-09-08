@@ -1,30 +1,90 @@
+"use client";
+
 import * as React from "react";
 
 import { cn } from "../../lib/cn";
 
-export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement>;
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
+
+export type SelectProps = Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size">;
+
+function optionsFromChildren(children: React.ReactNode) {
+  return React.Children.toArray(children).flatMap((child) => {
+    if (!React.isValidElement<{ value?: string | number; children?: React.ReactNode }>(child)) {
+      return [];
+    }
+
+    const label =
+      typeof child.props.children === "string" || typeof child.props.children === "number"
+        ? String(child.props.children)
+        : String(child.props.value ?? "");
+    const value = child.props.value != null ? String(child.props.value) : label;
+    return [{ value, label }];
+  });
+}
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, children, id, style, ...props }, ref) => {
+  ({ className, children, id, defaultValue, value, onChange, disabled, name, ...props }, ref) => {
     const generatedId = React.useId();
+    const triggerId = id ?? generatedId;
+    const options = optionsFromChildren(children);
+    const [uncontrolled, setUncontrolled] = React.useState(() =>
+      String(defaultValue ?? options[0]?.value ?? ""),
+    );
+    const selected = value !== undefined ? String(value) : uncontrolled;
+    const label = options.find((option) => option.value === selected)?.label ?? selected;
+
+    function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
+      if (value === undefined) setUncontrolled(event.target.value);
+      onChange?.(event);
+    }
+
+    function pick(next: string) {
+      if (value === undefined) setUncontrolled(next);
+      onChange?.({ target: { value: next } } as React.ChangeEvent<HTMLSelectElement>);
+    }
 
     return (
-      <select
-        ref={ref}
-        id={id ?? generatedId}
-        className={cn(
-          "h-8 w-full cursor-pointer appearance-none rounded-sm border border-white/8 bg-[#121215] bg-size-[12px] bg-position-[right_8px_center] bg-no-repeat px-2.5 pr-7 font-mono text-xs text-zinc-100 outline-none transition-colors hover:border-white/[0.14] focus-visible:border-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20 disabled:cursor-not-allowed disabled:opacity-40",
-          className,
-        )}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23a1a1aa' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E\")",
-          ...style,
-        }}
-        {...props}
-      >
-        {children}
-      </select>
+      <div className="grid">
+        <select
+          ref={ref}
+          tabIndex={-1}
+          aria-hidden
+          className="sr-only"
+          name={name}
+          disabled={disabled}
+          {...props}
+          value={selected}
+          onChange={handleChange}
+        >
+          {children}
+        </select>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            id={triggerId}
+            className={cn("w-full", className)}
+            disabled={disabled}
+          >
+            {label}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {options.map((option) => (
+              <DropdownMenuItem
+                key={option.value}
+                aria-current={option.value === selected ? "true" : undefined}
+                onClick={() => pick(option.value)}
+              >
+                {option.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     );
   },
 );

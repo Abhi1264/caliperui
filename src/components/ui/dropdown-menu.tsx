@@ -95,7 +95,7 @@ export const DropdownMenuTrigger = React.forwardRef<HTMLButtonElement, ButtonPro
         }}
         variant={variant}
         size={size}
-        className={cn("justify-between", className)}
+        className={cn("justify-between!", className)}
         popoverTarget={id}
         aria-haspopup="menu"
         aria-expanded={open}
