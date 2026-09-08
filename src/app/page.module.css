@@ -70,6 +70,7 @@
 }
 
 .wordmark {
+  gap: 8px;
   border-right: 1px solid var(--line);
   padding-inline: 16px;
   color: var(--ink);
@@ -79,6 +80,13 @@
   font-weight: 600;
   letter-spacing: -0.025em;
   text-decoration: none;
+}
+
+.brandMark {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
 }
 
 .headerActions {
@@ -104,6 +112,7 @@
   display: inline-flex;
   min-height: 36px;
   align-items: center;
+  gap: 6px;
   padding-inline: 10px;
   color: var(--muted);
   cursor: pointer;
@@ -571,14 +580,25 @@
 
 .footerWordmark,
 .footerInner a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 11px;
   text-decoration: none;
 }
 
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .footerInner a {
   cursor: pointer;
+  gap: 6px;
+  padding-inline: 10px;
 }
 
 .footerInner a:hover {

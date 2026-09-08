@@ -1,3 +1,5 @@
+<img src="src/app/icon.svg" alt="Caliper UI" width="64" height="64">
+
 # Caliper UI
 
 Typed React primitives on native browser APIs and Tailwind. `dependencies` is empty. React is the only runtime.
