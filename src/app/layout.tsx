@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-
+import { Analytics } from "@vercel/analytics/next";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "../styles/globals.css";
 
@@ -26,7 +26,10 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

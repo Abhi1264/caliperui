@@ -30,7 +30,9 @@
     "react": ">=18",
     "react-dom": ">=18"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.5.0",
