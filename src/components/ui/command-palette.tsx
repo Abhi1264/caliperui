@@ -4,13 +4,7 @@ import * as React from "react";
 
 import { cn } from "../../lib/cn";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "./dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./dialog";
 import { IconCommand, IconSearch } from "./icons";
 import { Input } from "./input";
 import { Kbd } from "./kbd";
@@ -52,23 +46,14 @@ function toDomToken(value: string) {
   return value.replace(/[^a-zA-Z0-9_-]/g, "_");
 }
 
-function matchesQuery(
-  item: CommandItem,
-  groupLabel: string | undefined,
-  query: string,
-) {
+function matchesQuery(item: CommandItem, groupLabel: string | undefined, query: string) {
   const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
   if (tokens.length === 0) {
     return true;
   }
 
-  const searchableText = [
-    item.label,
-    item.description,
-    groupLabel,
-    ...(item.keywords ?? []),
-  ]
+  const searchableText = [item.label, item.description, groupLabel, ...(item.keywords ?? [])]
     .filter((value): value is string => Boolean(value))
     .join(" ")
     .toLowerCase();
@@ -91,12 +76,9 @@ export function CommandPalette({
   triggerAriaLabel = "Open command menu",
   triggerClassName,
 }: CommandPaletteProps) {
-  const [uncontrolledOpen, setUncontrolledOpen] =
-    React.useState(defaultOpen);
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const [query, setQuery] = React.useState("");
-  const [requestedActiveId, setRequestedActiveId] = React.useState<
-    string | null
-  >(null);
+  const [requestedActiveId, setRequestedActiveId] = React.useState<string | null>(null);
   const isOpenControlled = controlledOpen !== undefined;
   const open = isOpenControlled ? controlledOpen : uncontrolledOpen;
   const openRef = React.useRef(open);
@@ -135,12 +117,7 @@ export function CommandPalette({
         !event.altKey &&
         !event.shiftKey;
 
-      if (
-        !isCommandK ||
-        event.defaultPrevented ||
-        event.repeat ||
-        event.isComposing
-      ) {
+      if (!isCommandK || event.defaultPrevented || event.repeat || event.isComposing) {
         return;
       }
 
@@ -169,9 +146,7 @@ export function CommandPalette({
   const filteredGroups = groups
     .map((group) => ({
       ...group,
-      items: group.items.filter((item) =>
-        matchesQuery(item, group.label, query),
-      ),
+      items: group.items.filter((item) => matchesQuery(item, group.label, query)),
     }))
     .filter((group) => group.items.length > 0);
 
@@ -180,13 +155,9 @@ export function CommandPalette({
   );
 
   const activeItem =
-    enabledItems.find((item) => item.id === requestedActiveId) ??
-    enabledItems[0] ??
-    null;
+    enabledItems.find((item) => item.id === requestedActiveId) ?? enabledItems[0] ?? null;
   const activeId = activeItem?.id ?? null;
-  const activeOptionId = activeId
-    ? `${listboxId}-option-${toDomToken(activeId)}`
-    : undefined;
+  const activeOptionId = activeId ? `${listboxId}-option-${toDomToken(activeId)}` : undefined;
 
   React.useEffect(() => {
     if (open && activeId) {
@@ -200,18 +171,9 @@ export function CommandPalette({
         return;
       }
 
-      const currentIndex = enabledItems.findIndex(
-        (item) => item.id === activeId,
-      );
-      const startIndex =
-        currentIndex === -1
-          ? direction === 1
-            ? -1
-            : 0
-          : currentIndex;
-      const nextIndex =
-        (startIndex + direction + enabledItems.length) %
-        enabledItems.length;
+      const currentIndex = enabledItems.findIndex((item) => item.id === activeId);
+      const startIndex = currentIndex === -1 ? (direction === 1 ? -1 : 0) : currentIndex;
+      const nextIndex = (startIndex + direction + enabledItems.length) % enabledItems.length;
 
       setRequestedActiveId(enabledItems[nextIndex]?.id ?? null);
     },
@@ -235,9 +197,7 @@ export function CommandPalette({
       <>
         <IconCommand aria-hidden="true" />
         <span>Command menu</span>
-        <Kbd className="ml-auto border-white/8 bg-black/20 text-zinc-500">
-          ⌘ K
-        </Kbd>
+        <Kbd className="ml-auto border-white/8 bg-black/20 text-zinc-500">⌘ K</Kbd>
       </>
     ) : (
       trigger
@@ -249,7 +209,7 @@ export function CommandPalette({
         <DialogTrigger
           aria-label={triggerAriaLabel}
           className={cn(
-            "inline-flex h-8 min-w-48 items-center gap-2 rounded-sm border border-white/8 bg-[#121215] px-2.5 text-xs text-zinc-400 outline-none transition-colors hover:border-white/[0.14] hover:bg-[#18181b] hover:text-zinc-200 focus-visible:ring-1 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]",
+            "inline-flex h-8 min-w-48 cursor-pointer items-center gap-2 rounded-sm border border-white/8 bg-[#121215] px-2.5 text-xs text-zinc-400 outline-none transition-colors hover:border-white/[0.14] hover:bg-[#18181b] hover:text-zinc-200 focus-visible:ring-1 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]",
             triggerClassName,
           )}
         >
@@ -257,27 +217,23 @@ export function CommandPalette({
         </DialogTrigger>
       ) : null}
 
-      <DialogContent
-        className={cn("overflow-hidden", className)}
-        showCloseButton={false}
-      >
+      <DialogContent className={cn("overflow-hidden", className)} showCloseButton={false}>
         <div className="sr-only">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </div>
 
         <div className="flex h-12 items-center gap-2.5 border-b border-white/8 px-3">
-          <IconSearch
-            aria-hidden="true"
-            className="shrink-0 text-zinc-500"
-          />
+          <IconSearch aria-hidden="true" className="shrink-0 text-zinc-500" />
           <Input
+            id={`${generatedId}-query`}
+            name="command-query"
             role="combobox"
             aria-activedescendant={activeOptionId}
             aria-autocomplete="list"
             aria-controls={listboxId}
             aria-expanded={open}
-            aria-label="Search sections and actions"
+            aria-label={placeholder}
             autoComplete="off"
             className="h-full flex-1 rounded-none border-0 px-0 text-sm focus-visible:border-transparent focus-visible:ring-0"
             placeholder={placeholder}
@@ -307,9 +263,7 @@ export function CommandPalette({
               }
             }}
           />
-          <Kbd className="shrink-0 border-white/8 bg-black/20 text-zinc-600">
-            ESC
-          </Kbd>
+          <Kbd className="shrink-0 border-white/8 bg-black/20 text-zinc-600">ESC</Kbd>
         </div>
 
         <div
@@ -319,17 +273,12 @@ export function CommandPalette({
           className="max-h-[min(22rem,60dvh)] overflow-y-auto p-1.5"
         >
           {filteredGroups.length === 0 ? (
-            <div
-              role="status"
-              className="px-3 py-10 text-center font-mono text-xs text-zinc-400"
-            >
+            <div role="status" className="px-3 py-10 text-center font-mono text-xs text-zinc-400">
               {emptyMessage}
             </div>
           ) : (
             filteredGroups.map((group, groupIndex) => {
-              const groupLabelId = `${listboxId}-group-${toDomToken(
-                group.id,
-              )}`;
+              const groupLabelId = `${listboxId}-group-${toDomToken(group.id)}`;
 
               return (
                 <React.Fragment key={group.id}>
@@ -340,12 +289,7 @@ export function CommandPalette({
                       className="my-1.5 h-px bg-white/8"
                     />
                   ) : null}
-                  <div
-                    role="group"
-                    aria-labelledby={
-                      group.label ? groupLabelId : undefined
-                    }
-                  >
+                  <div role="group" aria-labelledby={group.label ? groupLabelId : undefined}>
                     {group.label ? (
                       <div
                         id={groupLabelId}
@@ -357,13 +301,9 @@ export function CommandPalette({
                     <div className="space-y-0.5">
                       {group.items.map((item) => {
                         const isActive = item.id === activeId;
-                        const optionId = `${listboxId}-option-${toDomToken(
-                          item.id,
-                        )}`;
+                        const optionId = `${listboxId}-option-${toDomToken(item.id)}`;
                         const shortcuts =
-                          typeof item.shortcut === "string"
-                            ? [item.shortcut]
-                            : item.shortcut;
+                          typeof item.shortcut === "string" ? [item.shortcut] : item.shortcut;
 
                         return (
                           <div
@@ -382,9 +322,7 @@ export function CommandPalette({
                             className={cn(
                               "flex min-h-9 select-none items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-xs text-zinc-300 outline-none",
                               isActive && !item.disabled && "bg-[#18181b] text-zinc-50",
-                              item.disabled
-                                ? "cursor-not-allowed opacity-35"
-                                : "cursor-default",
+                              item.disabled ? "cursor-not-allowed opacity-35" : "cursor-pointer",
                             )}
                             onClick={() => selectItem(item)}
                             onMouseDown={(event) => event.preventDefault()}
@@ -395,17 +333,12 @@ export function CommandPalette({
                             }}
                           >
                             {item.icon ? (
-                              <span
-                                aria-hidden="true"
-                                className="shrink-0 text-zinc-500"
-                              >
+                              <span aria-hidden="true" className="shrink-0 text-zinc-500">
                                 {item.icon}
                               </span>
                             ) : null}
                             <span className="min-w-0 flex-1">
-                              <span className="block truncate">
-                                {item.label}
-                              </span>
+                              <span className="block truncate">{item.label}</span>
                               {item.description ? (
                                 <span className="mt-0.5 block truncate text-[11px] text-zinc-400">
                                   {item.description}

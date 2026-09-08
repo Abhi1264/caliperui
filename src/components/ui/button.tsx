@@ -6,7 +6,7 @@ export type ButtonVariant = "outline" | "ghost" | "solid" | "destructive";
 export type ButtonSize = "sm" | "md" | "icon";
 
 const base =
-  "inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] border text-xs font-medium leading-none outline-none transition-colors duration-150 focus-visible:ring-1 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b] disabled:pointer-events-none disabled:opacity-40 [&_svg]:shrink-0";
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] border text-xs font-medium leading-none outline-none transition-colors duration-150 focus-visible:ring-1 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b] disabled:pointer-events-none disabled:opacity-40 [&_svg]:shrink-0";
 
 const variants: Record<ButtonVariant, string> = {
   outline:
@@ -35,23 +35,13 @@ export function buttonVariants({
   return cn(base, variants[variant], sizes[size]);
 }
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant = "outline",
-      size = "md",
-      type = "button",
-      ...props
-    },
-    ref,
-  ) => (
+  ({ className, variant = "outline", size = "md", type = "button", ...props }, ref) => (
     <button
       ref={ref}
       type={type}

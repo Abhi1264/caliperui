@@ -12,12 +12,22 @@ import {
   DialogDescription,
   DialogTitle,
   Disclosure,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   Field,
   Gauge,
   IconCheck,
+  IconClose,
   IconCommand,
   IconCopy,
   IconSearch,
+  Input,
   Kbd,
   Select,
   Slider,
@@ -34,7 +44,6 @@ import { useClipboard } from "@/lib/clipboard";
 
 import styles from "./page.module.css";
 
-type PreviewTab = "button" | "measurements" | "dialog";
 type PackageManager = keyof typeof INSTALL_COMMANDS;
 
 const INSTALL_COMMANDS = {
@@ -52,74 +61,97 @@ const TOKENS = [
 
 const COMPONENTS = [
   {
+    id: "button",
     name: "Button",
     behavior: "4 variants · 3 sizes",
     source: "button.tsx",
   },
   {
+    id: "input",
     name: "Input",
     behavior: "Native props · invalid state",
     source: "input.tsx",
   },
   {
+    id: "dialog",
     name: "Dialog",
     behavior: "Native <dialog> · controlled or uncontrolled",
     source: "dialog.tsx",
   },
   {
+    id: "command-palette",
     name: "Command Palette",
     behavior: "Search · arrows · Enter · ⌘/Ctrl K",
     source: "command-palette.tsx",
   },
   {
+    id: "table",
     name: "Table",
     behavior: "Semantic parts · horizontal overflow",
     source: "table.tsx",
   },
   {
+    id: "kbd",
     name: "Kbd",
     behavior: "Keyboard key labels",
     source: "kbd.tsx",
   },
   {
+    id: "field",
     name: "Field",
     behavior: "Visible label · hint · error",
     source: "field.tsx",
   },
   {
+    id: "gauge",
     name: "Gauge",
     behavior: "Native <meter> · numeric readout",
     source: "gauge.tsx",
   },
   {
+    id: "slider",
     name: "Slider",
     behavior: "Native range input",
     source: "slider.tsx",
   },
   {
+    id: "select",
     name: "Select",
     behavior: "Native <select>",
     source: "select.tsx",
   },
   {
+    id: "dropdown-menu",
+    name: "Dropdown Menu",
+    behavior: "Popover · submenu · separator",
+    source: "dropdown-menu.tsx",
+  },
+  {
+    id: "disclosure",
     name: "Disclosure",
     behavior: "Native <details>",
     source: "disclosure.tsx",
   },
+  {
+    id: "bento-grid",
+    name: "Bento Grid",
+    behavior: "Dense specification grid",
+    source: "bento-grid.tsx",
+  },
+  {
+    id: "icons",
+    name: "Icons",
+    behavior: "Inline SVGs",
+    source: "icons.tsx",
+  },
 ] as const;
 
-const PREVIEW_TABS: { id: PreviewTab; label: string }[] = [
-  { id: "button", label: "Button" },
-  { id: "measurements", label: "Measurements" },
-  { id: "dialog", label: "Dialog" },
-];
+type PreviewTab = (typeof COMPONENTS)[number]["id"];
 
 function focusTarget(element: HTMLElement | null) {
   if (!element) return;
 
-  const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   element.scrollIntoView({
     behavior: reduceMotion ? "auto" : "smooth",
@@ -162,14 +194,30 @@ export function Showcase() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [span, setSpan] = useState(64);
   const [unit, setUnit] = useState<"px" | "pt" | "%">("px");
-  const [packageManager, setPackageManager] =
-    useState<PackageManager>("pnpm");
+  const [menuAction, setMenuAction] = useState("None");
+  const [packageManager, setPackageManager] = useState<PackageManager>("pnpm");
   const { copied, copy } = useClipboard(1_800);
   const installCommand = INSTALL_COMMANDS[packageManager];
   const spanId = useId();
   const unitId = useId();
+  const nameId = useId();
+  const previewSelectId = useId();
 
   const commandGroups: readonly CommandGroup[] = [
+    {
+      id: "primitives",
+      label: "Components",
+      items: COMPONENTS.map((row) => ({
+        id: `preview-${row.id}`,
+        label: row.name,
+        keywords: [row.id, row.source],
+        icon: <IconCommand />,
+        onSelect: () => {
+          setPreviewTab(row.id);
+          focusTarget(document.getElementById("preview"));
+        },
+      })),
+    },
     {
       id: "navigation",
       label: "Go to",
@@ -178,15 +226,13 @@ export function Showcase() {
           id: "components",
           label: "Go to components",
           icon: <IconCommand />,
-          onSelect: () =>
-            focusTarget(document.getElementById("components")),
+          onSelect: () => focusTarget(document.getElementById("components")),
         },
         {
           id: "features",
           label: "Go to implementation",
           icon: <IconSearch />,
-          onSelect: () =>
-            focusTarget(document.getElementById("features")),
+          onSelect: () => focusTarget(document.getElementById("features")),
         },
       ],
     },
@@ -207,13 +253,13 @@ export function Showcase() {
 
   return (
     <div className={styles.page}>
-      <a className={styles.skipLink} href="#main-content">
+      <a className={styles.skipLink} href="/">
         Skip to content
       </a>
 
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <a className={styles.wordmark} href="#main-content">
+          <a className={styles.wordmark} href="/">
             CALIPER UI
           </a>
           <nav className={styles.headerActions} aria-label="Primary">
@@ -243,28 +289,22 @@ export function Showcase() {
               <p className={styles.eyebrow}>Source-owned React primitives</p>
               <h1 className={styles.headline}>
                 Caliper UI.{" "}
-                <span className={styles.headlineSecondary}>
-                  Engineered for precision.
-                </span>
+                <span className={styles.headlineSecondary}>Engineered for precision.</span>
               </h1>
               <p className={styles.heroDescription}>
-                Typed React components on native browser APIs and Tailwind CSS.
-                No runtime package beyond React.
+                Typed React components on native browser APIs and Tailwind CSS. No runtime package
+                beyond React.
               </p>
               <div className={styles.heroActions}>
                 <Button
                   variant="solid"
-                  onClick={() =>
-                    focusTarget(document.getElementById("components"))
-                  }
+                  onClick={() => focusTarget(document.getElementById("components"))}
                 >
                   Explore components
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() =>
-                    focusTarget(document.getElementById("features"))
-                  }
+                  onClick={() => focusTarget(document.getElementById("features"))}
                 >
                   Review implementation
                 </Button>
@@ -276,32 +316,27 @@ export function Showcase() {
                   role="tablist"
                   aria-label="Package manager"
                   onKeyDown={(event) =>
-                    onTabListKeyDown(
-                      event,
-                      Object.keys(INSTALL_COMMANDS),
-                      packageManager,
-                      (id) => setPackageManager(id as PackageManager),
+                    onTabListKeyDown(event, Object.keys(INSTALL_COMMANDS), packageManager, (id) =>
+                      setPackageManager(id as PackageManager),
                     )
                   }
                 >
-                  {(Object.keys(INSTALL_COMMANDS) as PackageManager[]).map(
-                    (manager) => (
-                      <button
-                        key={manager}
-                        id={`tab-${manager}`}
-                        type="button"
-                        className={styles.installTab}
-                        role="tab"
-                        aria-selected={packageManager === manager}
-                        aria-controls="install-command"
-                        tabIndex={packageManager === manager ? 0 : -1}
-                        data-active={packageManager === manager}
-                        onClick={() => setPackageManager(manager)}
-                      >
-                        {manager}
-                      </button>
-                    ),
-                  )}
+                  {(Object.keys(INSTALL_COMMANDS) as PackageManager[]).map((manager) => (
+                    <button
+                      key={manager}
+                      id={`tab-${manager}`}
+                      type="button"
+                      className={styles.installTab}
+                      role="tab"
+                      aria-selected={packageManager === manager}
+                      aria-controls="install-command"
+                      tabIndex={packageManager === manager ? 0 : -1}
+                      data-active={packageManager === manager}
+                      onClick={() => setPackageManager(manager)}
+                    >
+                      {manager}
+                    </button>
+                  ))}
                 </div>
                 <div className={styles.installRow}>
                   <code id="install-command" className={styles.installPrompt}>
@@ -310,9 +345,7 @@ export function Showcase() {
                   <button
                     type="button"
                     className={styles.installCopy}
-                    aria-label={
-                      copied ? "Install command copied" : "Copy install command"
-                    }
+                    aria-label={copied ? "Install command copied" : "Copy install command"}
                     onClick={() => void copy(installCommand)}
                   >
                     {copied ? <IconCheck /> : <IconCopy />}
@@ -324,61 +357,35 @@ export function Showcase() {
               </div>
             </div>
 
-            <div className={styles.sandbox}>
+            <div id="preview" className={`${styles.sandbox} ${styles.focusTarget}`} tabIndex={-1}>
               <div className={styles.sandboxHeader}>
-                <span className={styles.panelLabel}>Component preview</span>
-                <span className={styles.panelMeta}>Interactive</span>
+                <p className={styles.panelLabel}>Component preview</p>
+                <div className={styles.previewSelect}>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger id={previewSelectId} className="w-full">
+                      {COMPONENTS.find((row) => row.id === previewTab)?.name}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      {COMPONENTS.map((row) => (
+                        <DropdownMenuItem
+                          key={row.id}
+                          aria-current={previewTab === row.id ? "true" : undefined}
+                          onClick={() => setPreviewTab(row.id)}
+                        >
+                          {row.name}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
 
-              <div
-                className={styles.sandboxTabs}
-                role="tablist"
-                aria-label="Preview"
-                onKeyDown={(event) =>
-                  onTabListKeyDown(
-                    event,
-                    PREVIEW_TABS.map((tab) => tab.id),
-                    previewTab,
-                    (id) => setPreviewTab(id as PreviewTab),
-                  )
-                }
-              >
-                {PREVIEW_TABS.map((tab) => (
-                  <button
-                    key={tab.id}
-                    id={`tab-${tab.id}`}
-                    type="button"
-                    className={styles.sandboxTab}
-                    role="tab"
-                    aria-controls="preview-panel"
-                    aria-selected={previewTab === tab.id}
-                    tabIndex={previewTab === tab.id ? 0 : -1}
-                    data-active={previewTab === tab.id}
-                    onClick={() => setPreviewTab(tab.id)}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-
-              <div
-                id="preview-panel"
-                className={styles.sandboxStage}
-                role="tabpanel"
-                aria-labelledby={`tab-${previewTab}`}
-              >
+              <div id="preview-panel" className={styles.sandboxStage}>
                 {previewTab === "button" ? (
                   <>
                     <p className={styles.microLabel}>Choose a variant</p>
                     <div className={styles.variantControls}>
-                      {(
-                        [
-                          "solid",
-                          "outline",
-                          "ghost",
-                          "destructive",
-                        ] as const
-                      ).map((variant) => (
+                      {(["solid", "outline", "ghost", "destructive"] as const).map((variant) => (
                         <Button
                           key={variant}
                           className={styles.variantButton}
@@ -406,70 +413,162 @@ export function Showcase() {
                       </span>
                       <Button variant={buttonVariant}>Test button</Button>
                     </div>
-                    <p className={styles.lastAction}>
-                      Selected: {buttonVariant}
-                    </p>
+                    <p className={styles.lastAction}>Selected: {buttonVariant}</p>
                   </>
                 ) : null}
 
-                {previewTab === "measurements" ? (
-                  <div className={styles.instrumentStack}>
-                    <Field
-                      label="Span"
-                      htmlFor={spanId}
-                      hint="The gauge uses the native meter element."
-                    >
-                      <Slider
-                        id={spanId}
-                        min={0}
-                        max={100}
-                        value={span}
-                        onChange={(event) =>
-                          setSpan(Number(event.target.value))
-                        }
-                      />
-                    </Field>
-                    <Gauge
-                      label="Reading"
+                {previewTab === "input" ? (
+                  <Input
+                    aria-label="Preview input"
+                    placeholder="Type in a native input"
+                    defaultValue=""
+                  />
+                ) : null}
+
+                {previewTab === "field" ? (
+                  <Field label="Name" htmlFor={nameId} hint="Visible label and hint.">
+                    <Input id={nameId} defaultValue="Caliper" />
+                  </Field>
+                ) : null}
+
+                {previewTab === "slider" ? (
+                  <Field label="Span" htmlFor={spanId}>
+                    <Slider
+                      id={spanId}
                       min={0}
                       max={100}
-                      low={25}
-                      high={75}
-                      optimum={50}
                       value={span}
-                      unit={unit}
+                      onChange={(event) => setSpan(Number(event.target.value))}
                     />
-                    <Field label="Unit" htmlFor={unitId}>
-                      <Select
-                        id={unitId}
-                        value={unit}
-                        onChange={(event) =>
-                          setUnit(event.target.value as "px" | "pt" | "%")
-                        }
-                      >
-                        <option value="px">px</option>
-                        <option value="pt">pt</option>
-                        <option value="%">%</option>
-                      </Select>
-                    </Field>
-                    <Disclosure summary="Button geometry">
-                      Control height 32 px. Corner radius 4 px. Focus ring 1
-                      px. Four variants: solid, outline, ghost, destructive.
-                    </Disclosure>
+                  </Field>
+                ) : null}
+
+                {previewTab === "gauge" ? (
+                  <Gauge
+                    label="Reading"
+                    min={0}
+                    max={100}
+                    low={25}
+                    high={75}
+                    optimum={50}
+                    value={span}
+                    unit={unit}
+                  />
+                ) : null}
+
+                {previewTab === "select" ? (
+                  <Field label="Unit" htmlFor={unitId}>
+                    <Select
+                      id={unitId}
+                      value={unit}
+                      onChange={(event) => setUnit(event.target.value as "px" | "pt" | "%")}
+                    >
+                      <option value="px">px</option>
+                      <option value="pt">pt</option>
+                      <option value="%">%</option>
+                    </Select>
+                  </Field>
+                ) : null}
+
+                {previewTab === "dropdown-menu" ? (
+                  <div className={styles.dialogStage}>
+                    <p>Arrows, Enter, Escape. Right opens a submenu.</p>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => setMenuAction("Copy token")}>
+                          Copy token
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuSub>
+                          <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+                          <DropdownMenuSubContent>
+                            <DropdownMenuItem onClick={() => setMenuAction("Export")}>
+                              Export
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setMenuAction("Open dialog");
+                                setDialogOpen(true);
+                              }}
+                            >
+                              Open dialog
+                            </DropdownMenuItem>
+                          </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <p className={styles.lastAction}>Last action: {menuAction}</p>
                   </div>
+                ) : null}
+
+                {previewTab === "disclosure" ? (
+                  <Disclosure summary="Button geometry">
+                    Control height 32 px. Corner radius 4 px. Focus ring 1 px. Four variants: solid,
+                    outline, ghost, destructive.
+                  </Disclosure>
+                ) : null}
+
+                {previewTab === "kbd" ? (
+                  <div className={styles.keyChord}>
+                    <Kbd>⌘</Kbd>
+                    <Kbd>K</Kbd>
+                    <Kbd>Esc</Kbd>
+                  </div>
+                ) : null}
+
+                {previewTab === "icons" ? (
+                  <div className={styles.iconRow}>
+                    <IconSearch title="Search" />
+                    <IconCommand title="Command" />
+                    <IconCopy title="Copy" />
+                    <IconCheck title="Check" />
+                    <IconClose title="Close" />
+                  </div>
+                ) : null}
+
+                {previewTab === "table" ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Token</TableHead>
+                        <TableHead>Value</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>Radius</TableCell>
+                        <TableCell>4px</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Height</TableCell>
+                        <TableCell>32px</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                ) : null}
+
+                {previewTab === "bento-grid" ? (
+                  <BentoGrid className="md:grid-cols-2">
+                    <BentoCard title="Surface" description="Cards use the raised canvas." />
+                    <BentoCard title="Hairline" description="Borders stay at 1px." />
+                  </BentoGrid>
                 ) : null}
 
                 {previewTab === "dialog" ? (
                   <div className={styles.dialogStage}>
-                    <p>
-                      Open the dialog, then try Tab, Shift+Tab, Escape, and the
-                      close controls.
-                    </p>
-                    <Button
-                      variant="solid"
-                      onClick={() => setDialogOpen(true)}
-                    >
+                    <p>Open the dialog, then try Tab, Shift+Tab, Escape, and the close controls.</p>
+                    <Button variant="solid" onClick={() => setDialogOpen(true)}>
                       Open dialog
+                    </Button>
+                  </div>
+                ) : null}
+
+                {previewTab === "command-palette" ? (
+                  <div className={styles.dialogStage}>
+                    <p>Search, arrow keys, Enter, and Escape.</p>
+                    <Button variant="solid" onClick={() => setPaletteOpen(true)}>
+                      Open command menu
                     </Button>
                   </div>
                 ) : null}
@@ -486,13 +585,10 @@ export function Showcase() {
           <div className={styles.sectionHeader}>
             <div>
               <span className={styles.sectionKicker}>Implementation</span>
-              <h2 className={styles.sectionTitle}>
-                Review the implementation before you copy it.
-              </h2>
+              <h2 className={styles.sectionTitle}>Review the implementation before you copy it.</h2>
             </div>
             <p className={styles.sectionDescription}>
-              The preview uses React, native browser APIs, Tailwind CSS, and
-              one local helper.
+              The preview uses React, native browser APIs, Tailwind CSS, and one local helper.
             </p>
           </div>
 
@@ -557,10 +653,7 @@ export function Showcase() {
               <div className={styles.swatchGrid}>
                 {TOKENS.map((token) => (
                   <div key={token.value} className={styles.swatch}>
-                    <span
-                      className={styles.swatchColor}
-                      style={{ backgroundColor: token.value }}
-                    />
+                    <span className={styles.swatchColor} style={{ backgroundColor: token.value }} />
                     <span className={styles.swatchText}>
                       {token.label}
                       <br />
@@ -581,21 +674,16 @@ export function Showcase() {
           <div className={styles.sectionHeader}>
             <div>
               <span className={styles.sectionKicker}>Inventory</span>
-              <h2 className={styles.sectionTitle}>
-                Components in this library.
-              </h2>
+              <h2 className={styles.sectionTitle}>Components in this library.</h2>
             </div>
             <p className={styles.sectionDescription}>
-              Each row is a primitive on this page. Source files are listed
-              for inspection.
+              Each name opens that primitive in the preview.
             </p>
           </div>
 
           <div className={styles.densityShell}>
             <Table className={styles.table}>
-              <TableCaption>
-                Implemented UI primitives and their source files.
-              </TableCaption>
+              <TableCaption>Implemented UI primitives and their source files.</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead scope="col">Component</TableHead>
@@ -607,12 +695,17 @@ export function Showcase() {
                 {COMPONENTS.map((row) => (
                   <TableRow key={row.name}>
                     <TableCell className={styles.componentCell}>
-                      {row.name}
+                      <a
+                        className={styles.componentLink}
+                        href="#preview"
+                        aria-current={previewTab === row.id ? "true" : undefined}
+                        onClick={() => setPreviewTab(row.id)}
+                      >
+                        {row.name}
+                      </a>
                     </TableCell>
                     <TableCell>{row.behavior}</TableCell>
-                    <TableCell className={styles.sourceCell}>
-                      {row.source}
-                    </TableCell>
+                    <TableCell className={styles.sourceCell}>{row.source}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -633,8 +726,8 @@ export function Showcase() {
         onOpenChange={setPaletteOpen}
         groups={commandGroups}
         title="Command menu"
-        description="Go to a section or run a preview action."
-        placeholder="Search sections and actions…"
+        description="Search components, sections, and actions."
+        placeholder="Search components…"
         emptyMessage="No matching commands."
         trigger={false}
       />
@@ -643,8 +736,8 @@ export function Showcase() {
         <DialogContent className={styles.dialogContent}>
           <DialogTitle className={styles.dialogTitle}>Dialog demo</DialogTitle>
           <DialogDescription className={styles.dialogDescription}>
-            This example uses the browser’s native dialog element. Press
-            Escape, click the backdrop, or choose Close.
+            This example uses the browser’s native dialog element. Press Escape, click the backdrop,
+            or choose Close.
           </DialogDescription>
           <div className={styles.dialogActions}>
             <Button variant="solid" onClick={() => setDialogOpen(false)}>

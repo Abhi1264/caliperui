@@ -38,8 +38,7 @@ export function Dialog({
   onOpenChange,
   open: controlledOpen,
 }: DialogProps) {
-  const [uncontrolledOpen, setUncontrolledOpen] =
-    React.useState(defaultOpen);
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : uncontrolledOpen;
   const openRef = React.useRef(open);
@@ -74,79 +73,69 @@ export function Dialog({
     [generatedId, open, setOpen],
   );
 
-  return (
-    <DialogContext.Provider value={context}>
-      {children}
-    </DialogContext.Provider>
-  );
+  return <DialogContext.Provider value={context}>{children}</DialogContext.Provider>;
 }
 
-export type DialogTriggerProps =
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+export type DialogTriggerProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const DialogTrigger = React.forwardRef<
-  HTMLButtonElement,
-  DialogTriggerProps
->(({ onClick, type = "button", ...props }, ref) => {
-  const { onOpenChange, open } = useDialogContext("DialogTrigger");
+export const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
+  ({ className, onClick, type = "button", ...props }, ref) => {
+    const { onOpenChange, open } = useDialogContext("DialogTrigger");
 
-  return (
-    <button
-      {...props}
-      ref={ref}
-      type={type}
-      aria-expanded={props["aria-expanded"] ?? open}
-      aria-haspopup={props["aria-haspopup"] ?? "dialog"}
-      onClick={(event) => {
-        onClick?.(event);
+    return (
+      <button
+        {...props}
+        ref={ref}
+        type={type}
+        className={cn("cursor-pointer", className)}
+        aria-expanded={props["aria-expanded"] ?? open}
+        aria-haspopup={props["aria-haspopup"] ?? "dialog"}
+        onClick={(event) => {
+          onClick?.(event);
 
-        if (!event.defaultPrevented) {
-          onOpenChange(true);
-        }
-      }}
-    />
-  );
-});
+          if (!event.defaultPrevented) {
+            onOpenChange(true);
+          }
+        }}
+      />
+    );
+  },
+);
 
 DialogTrigger.displayName = "DialogTrigger";
 
-export type DialogCloseProps =
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+export type DialogCloseProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const DialogClose = React.forwardRef<
-  HTMLButtonElement,
-  DialogCloseProps
->(({ onClick, type = "button", ...props }, ref) => {
-  const { onOpenChange } = useDialogContext("DialogClose");
+export const DialogClose = React.forwardRef<HTMLButtonElement, DialogCloseProps>(
+  ({ className, onClick, type = "button", ...props }, ref) => {
+    const { onOpenChange } = useDialogContext("DialogClose");
 
-  return (
-    <button
-      {...props}
-      ref={ref}
-      type={type}
-      onClick={(event) => {
-        onClick?.(event);
+    return (
+      <button
+        {...props}
+        ref={ref}
+        type={type}
+        className={cn("cursor-pointer", className)}
+        onClick={(event) => {
+          onClick?.(event);
 
-        if (!event.defaultPrevented) {
-          onOpenChange(false);
-        }
-      }}
-    />
-  );
-});
+          if (!event.defaultPrevented) {
+            onOpenChange(false);
+          }
+        }}
+      />
+    );
+  },
+);
 
 DialogClose.displayName = "DialogClose";
 
-export interface DialogContentProps
-  extends Omit<React.ComponentPropsWithoutRef<"dialog">, "open"> {
+export interface DialogContentProps extends Omit<React.ComponentPropsWithoutRef<"dialog">, "open"> {
   closeLabel?: string;
   showCloseButton?: boolean;
 }
 
-export const DialogContent = React.forwardRef<
-  HTMLDialogElement,
-  DialogContentProps
->(
+export const DialogContent = React.forwardRef<HTMLDialogElement, DialogContentProps>(
   (
     {
       "aria-describedby": ariaDescribedBy,
@@ -162,12 +151,7 @@ export const DialogContent = React.forwardRef<
     },
     forwardedRef,
   ) => {
-    const {
-      descriptionId,
-      onOpenChange,
-      open,
-      titleId,
-    } = useDialogContext("DialogContent");
+    const { descriptionId, onOpenChange, open, titleId } = useDialogContext("DialogContent");
     const dialogRef = React.useRef<HTMLDialogElement | null>(null);
 
     const setDialogRef = React.useCallback(
@@ -217,10 +201,7 @@ export const DialogContent = React.forwardRef<
         onClick={(event) => {
           onClick?.(event);
 
-          if (
-            event.defaultPrevented ||
-            event.target !== event.currentTarget
-          ) {
+          if (event.defaultPrevented || event.target !== event.currentTarget) {
             return;
           }
 
@@ -256,48 +237,40 @@ export const DialogContent = React.forwardRef<
 
 DialogContent.displayName = "DialogContent";
 
-export type DialogTitleProps = Omit<
-  React.HTMLAttributes<HTMLHeadingElement>,
-  "id"
->;
+export type DialogTitleProps = Omit<React.HTMLAttributes<HTMLHeadingElement>, "id">;
 
-export const DialogTitle = React.forwardRef<
-  HTMLHeadingElement,
-  DialogTitleProps
->(({ className, ...props }, ref) => {
-  const { titleId } = useDialogContext("DialogTitle");
+export const DialogTitle = React.forwardRef<HTMLHeadingElement, DialogTitleProps>(
+  ({ className, ...props }, ref) => {
+    const { titleId } = useDialogContext("DialogTitle");
 
-  return (
-    <h2
-      ref={ref}
-      id={titleId}
-      className={cn("text-sm font-medium text-zinc-50", className)}
-      {...props}
-    />
-  );
-});
+    return (
+      <h2
+        ref={ref}
+        id={titleId}
+        className={cn("text-sm font-medium text-zinc-50", className)}
+        {...props}
+      />
+    );
+  },
+);
 
 DialogTitle.displayName = "DialogTitle";
 
-export type DialogDescriptionProps = Omit<
-  React.HTMLAttributes<HTMLParagraphElement>,
-  "id"
->;
+export type DialogDescriptionProps = Omit<React.HTMLAttributes<HTMLParagraphElement>, "id">;
 
-export const DialogDescription = React.forwardRef<
-  HTMLParagraphElement,
-  DialogDescriptionProps
->(({ className, ...props }, ref) => {
-  const { descriptionId } = useDialogContext("DialogDescription");
+export const DialogDescription = React.forwardRef<HTMLParagraphElement, DialogDescriptionProps>(
+  ({ className, ...props }, ref) => {
+    const { descriptionId } = useDialogContext("DialogDescription");
 
-  return (
-    <p
-      ref={ref}
-      id={descriptionId}
-      className={cn("mt-1.5 text-xs leading-5 text-zinc-400", className)}
-      {...props}
-    />
-  );
-});
+    return (
+      <p
+        ref={ref}
+        id={descriptionId}
+        className={cn("mt-1.5 text-xs leading-5 text-zinc-400", className)}
+        {...props}
+      />
+    );
+  },
+);
 
 DialogDescription.displayName = "DialogDescription";

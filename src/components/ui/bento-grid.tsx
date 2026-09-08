@@ -19,8 +19,7 @@ export const BentoGrid = React.forwardRef<HTMLDivElement, BentoGridProps>(
 
 BentoGrid.displayName = "BentoGrid";
 
-export interface BentoCardProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
+export interface BentoCardProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   title?: React.ReactNode;
   description?: React.ReactNode;
 }
@@ -36,12 +35,7 @@ export const BentoCard = React.forwardRef<HTMLElement, BentoCardProps>(
         <h3 className="text-sm font-medium leading-5 text-zinc-50">{title}</h3>
       ) : null}
       {description != null ? (
-        <p
-          className={cn(
-            "max-w-prose text-xs leading-5 text-zinc-400",
-            title != null && "mt-1.5",
-          )}
-        >
+        <p className={cn("max-w-prose text-xs leading-5 text-zinc-400", title != null && "mt-1.5")}>
           {description}
         </p>
       ) : null}

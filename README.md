@@ -12,7 +12,19 @@ This repo is managed with pnpm.
 pnpm add caliper-ui
 ```
 
-The published package also installs with npm, Yarn, or Bun. Peers: `react` and `react-dom` (18+). The host app must compile Tailwind.
+```sh
+npm install caliper-ui
+```
+
+```sh
+yarn add caliper-ui
+```
+
+```sh
+bun add caliper-ui
+```
+
+Peers: `react` and `react-dom` (18+). The host app must compile Tailwind.
 
 Next.js:
 
@@ -29,25 +41,26 @@ import { Button } from "caliper-ui/button";
 import { Dialog } from "caliper-ui/dialog";
 ```
 
-The barrel `import { Button } from "caliper-ui"` still works. Other entry points: `input`, `field`, `select`, `slider`, `gauge`, `kbd`, `table`, `bento-grid`, `command-palette`, `disclosure`, `icons`, `cn`, `clipboard`, `styles.css`.
+The barrel `import { Button } from "caliper-ui"` still works. Other entry points: `input`, `field`, `select`, `dropdown-menu`, `slider`, `gauge`, `kbd`, `table`, `bento-grid`, `command-palette`, `disclosure`, `icons`, `cn`, `clipboard`, `styles.css`.
 
 ## Primitives
 
-| Primitive | What it is |
-| --- | --- |
-| `Button` | Variants and sizes on a native `<button>` |
-| `Input` | Native text input |
-| `Field` | Visible label, hint, and error |
-| `Select` | Native `<select>` |
-| `Slider` | Native range input |
-| `Gauge` | Native `<meter>` plus a numeric readout |
-| `Kbd` | Keyboard key labels |
-| `Table` | Semantic table parts |
-| `BentoGrid` / `BentoCard` | Dense specification grid |
-| `Dialog` | Controlled or uncontrolled `<dialog>` |
-| `CommandPalette` | Searchable command menu (`⌘`/`Ctrl`+`K`) |
-| `Disclosure` | Native `<details>` |
-| Icons | Inline SVGs |
+| Primitive                 | What it is                                |
+| ------------------------- | ----------------------------------------- |
+| `Button`                  | Variants and sizes on a native `<button>` |
+| `Input`                   | Native text input                         |
+| `Field`                   | Visible label, hint, and error            |
+| `Select`                  | Native `<select>`                         |
+| `DropdownMenu`            | Native `popover` menu, submenu, separator |
+| `Slider`                  | Native range input                        |
+| `Gauge`                   | Native `<meter>` plus a numeric readout   |
+| `Kbd`                     | Keyboard key labels                       |
+| `Table`                   | Semantic table parts                      |
+| `BentoGrid` / `BentoCard` | Dense specification grid                  |
+| `Dialog`                  | Controlled or uncontrolled `<dialog>`     |
+| `CommandPalette`          | Searchable command menu (`⌘`/`Ctrl`+`K`)  |
+| `Disclosure`              | Native `<details>`                        |
+| Icons                     | Inline SVGs                               |
 
 Helpers: `cn`, `copyToClipboard`, `useClipboard`. Tokens live in `caliper-ui/styles.css`.
 
@@ -58,4 +71,4 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm typecheck` checks the tree. `pnpm build` builds the Next.js preview. Consumers compile the published `.ts`/`.tsx` files.
+`pnpm typecheck` checks the tree. `pnpm lint` runs oxlint. `pnpm fmt` formats with oxfmt. `pnpm build` builds the Next.js preview. Consumers compile the published `.ts`/`.tsx` files.

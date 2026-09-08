@@ -11,14 +11,7 @@ export interface FieldProps {
   children: React.ReactNode;
 }
 
-export function Field({
-  label,
-  htmlFor,
-  hint,
-  error,
-  className,
-  children,
-}: FieldProps) {
+export function Field({ label, htmlFor, hint, error, className, children }: FieldProps) {
   return (
     <div className={cn("grid gap-1.5", className)}>
       <label

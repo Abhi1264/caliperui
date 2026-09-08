@@ -29,6 +29,7 @@
   background: var(--ink);
   padding: 8px 12px;
   color: var(--canvas);
+  cursor: pointer;
   font-family: var(--font-mono);
   font-size: 11px;
 }
@@ -72,6 +73,7 @@
   border-right: 1px solid var(--line);
   padding-inline: 16px;
   color: var(--ink);
+  cursor: pointer;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
@@ -104,6 +106,7 @@
   align-items: center;
   padding-inline: 10px;
   color: var(--muted);
+  cursor: pointer;
   font-family: var(--font-mono);
   font-size: 11px;
   text-decoration: none;
@@ -114,9 +117,9 @@
 }
 
 .headerLink:focus-visible,
-.sandboxTab:focus-visible,
 .installTab:focus-visible,
-.installCopy:focus-visible {
+.installCopy:focus-visible,
+.componentLink:focus-visible {
   outline: 1px solid #a1a1aa;
   outline-offset: 2px;
 }
@@ -144,7 +147,6 @@
 .eyebrow,
 .sectionKicker,
 .panelLabel,
-.panelMeta,
 .microLabel {
   font-family: var(--font-mono);
   text-transform: uppercase;
@@ -284,46 +286,19 @@
   min-height: 44px;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   border-bottom: 1px solid var(--line);
   padding-inline: 16px;
 }
 
-.panelLabel,
-.panelMeta {
+.panelLabel {
   color: var(--muted);
   font-size: 10px;
 }
 
-.sandboxTabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-bottom: 1px solid var(--line);
-}
-
-.sandboxTab,
-.keyBinding {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-family: var(--font-mono);
-}
-
-.sandboxTab {
-  min-height: 44px;
-  border-right: 1px solid var(--line);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.sandboxTab:last-child {
-  border-right: 0;
-}
-
-.sandboxTab:hover,
-.sandboxTab[data-active="true"] {
-  background: var(--surface-hover);
-  color: var(--ink);
+.previewSelect {
+  width: 180px;
+  margin-left: auto;
 }
 
 .sandboxStage {
@@ -333,11 +308,6 @@
   flex-direction: column;
   justify-content: center;
   padding: 24px;
-}
-
-.instrumentStack {
-  display: grid;
-  gap: 16px;
 }
 
 .microLabel {
@@ -517,6 +487,13 @@
   gap: 3px;
 }
 
+.iconRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--muted);
+}
+
 .swatchGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -563,6 +540,18 @@
   font-weight: 500;
 }
 
+.componentLink {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.componentLink:hover,
+.componentLink[aria-current="true"] {
+  color: var(--ink);
+}
+
 .sourceCell {
   color: var(--muted);
   font-family: var(--font-mono);
@@ -586,6 +575,10 @@
   font-family: var(--font-mono);
   font-size: 11px;
   text-decoration: none;
+}
+
+.footerInner a {
+  cursor: pointer;
 }
 
 .footerInner a:hover {
@@ -617,7 +610,6 @@
 
 @media (pointer: coarse) {
   .headerLink,
-  .sandboxTab,
   .installTab,
   .installCopy,
   .footerInner a {

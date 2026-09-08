@@ -2,26 +2,13 @@ import * as React from "react";
 
 import { cn } from "../../lib/cn";
 
-export interface GaugeProps
-  extends Omit<React.MeterHTMLAttributes<HTMLMeterElement>, "children"> {
+export interface GaugeProps extends Omit<React.MeterHTMLAttributes<HTMLMeterElement>, "children"> {
   label?: React.ReactNode;
   unit?: string;
 }
 
 export const Gauge = React.forwardRef<HTMLMeterElement, GaugeProps>(
-  (
-    {
-      className,
-      id,
-      label,
-      unit,
-      min = 0,
-      max = 100,
-      value = 0,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ className, id, label, unit, min = 0, max = 100, value = 0, ...props }, ref) => {
     const generatedId = React.useId();
     const meterId = id ?? generatedId;
     const suffix = unit ? ` ${unit}` : "";
@@ -38,9 +25,7 @@ export const Gauge = React.forwardRef<HTMLMeterElement, GaugeProps>(
               {label}
             </label>
           ) : null}
-          <span className="font-mono text-xs tabular-nums text-zinc-100">
-            {readout}
-          </span>
+          <span className="font-mono text-xs tabular-nums text-zinc-100">{readout}</span>
         </div>
         <meter
           ref={ref}

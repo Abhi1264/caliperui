@@ -10,6 +10,7 @@ export * from "./ui/field";
 export * from "./ui/gauge";
 export * from "./ui/slider";
 export * from "./ui/select";
+export * from "./ui/dropdown-menu";
 export * from "./ui/disclosure";
 export { cn } from "../lib/cn";
 export { copyToClipboard, useClipboard } from "../lib/clipboard";

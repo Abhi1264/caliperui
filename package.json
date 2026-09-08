@@ -2,14 +2,14 @@
   "name": "caliper-ui",
   "version": "0.1.0",
   "description": "Typed React primitives with no runtime package beyond React.",
-  "type": "module",
-  "sideEffects": [
-    "**/*.css"
-  ],
   "files": [
     "src/components",
     "src/lib",
     "src/styles"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
   ],
   "exports": {
     ".": "./src/components/index.ts",
@@ -17,6 +17,7 @@
     "./input": "./src/components/ui/input.tsx",
     "./field": "./src/components/ui/field.tsx",
     "./select": "./src/components/ui/select.tsx",
+    "./dropdown-menu": "./src/components/ui/dropdown-menu.tsx",
     "./slider": "./src/components/ui/slider.tsx",
     "./gauge": "./src/components/ui/gauge.tsx",
     "./kbd": "./src/components/ui/kbd.tsx",
@@ -31,19 +32,15 @@
     "./styles.css": "./src/styles/globals.css",
     "./package.json": "./package.json"
   },
-  "packageManager": "pnpm@12.2.1",
-  "engines": {
-    "node": ">=20"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
-  },
-  "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18"
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1"
@@ -54,10 +51,20 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "next": "^16.3.4",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
     "postcss": "^8.5.28",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
-  }
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@12.2.1"
 }
