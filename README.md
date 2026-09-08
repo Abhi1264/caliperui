@@ -25,8 +25,11 @@ export default nextConfig;
 ```
 
 ```ts
-import { Button, Dialog, Gauge } from "caliper-ui";
+import { Button } from "caliper-ui/button";
+import { Dialog } from "caliper-ui/dialog";
 ```
+
+The barrel `import { Button } from "caliper-ui"` still works. Other entry points: `input`, `field`, `select`, `slider`, `gauge`, `kbd`, `table`, `bento-grid`, `command-palette`, `disclosure`, `icons`, `cn`, `clipboard`, `styles.css`.
 
 ## Primitives
 
