@@ -242,15 +242,14 @@ export function Showcase() {
             <div className={styles.heroCopy}>
               <p className={styles.eyebrow}>Source-owned React primitives</p>
               <h1 className={styles.headline}>
-                Engineered for precision.{" "}
+                Caliper UI.{" "}
                 <span className={styles.headlineSecondary}>
-                  Built with zero dependencies.
+                  Engineered for precision.
                 </span>
               </h1>
               <p className={styles.heroDescription}>
-                Typed React primitives that live in your repository. They use
-                native browser APIs and Tailwind CSS, and add no runtime
-                package beyond React.
+                Typed React components on native browser APIs and Tailwind CSS.
+                No runtime package beyond React.
               </p>
               <div className={styles.heroActions}>
                 <Button
@@ -583,7 +582,7 @@ export function Showcase() {
             <div>
               <span className={styles.sectionKicker}>Inventory</span>
               <h2 className={styles.sectionTitle}>
-                Components implemented in this preview.
+                Components in this library.
               </h2>
             </div>
             <p className={styles.sectionDescription}>

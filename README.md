@@ -2,6 +2,8 @@
 
 Typed React primitives on native browser APIs and Tailwind. `dependencies` is empty. React is the only runtime.
 
+Live site: [caliperui.abhinavkumar.site](https://caliperui.abhinavkumar.site)
+
 This repo is managed with pnpm.
 
 ## Install

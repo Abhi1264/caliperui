@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://caliperui.abhinavkumar.site/sitemap.xml
