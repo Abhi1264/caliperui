@@ -1,6 +1,6 @@
 {
   "name": "caliper-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "Typed React primitives with no runtime package beyond React.",
   "files": [
