@@ -1,51 +1,49 @@
 @import "tailwindcss";
 
+@theme {
+  --color-canvas: #184e78;
+  --color-surface: #e4e8ea;
+  --color-raised: #f4f6f7;
+  --color-line: #c5ccd1;
+  --color-ink: #14202b;
+  --color-muted: #5c676e;
+  --color-brass: #e6c98a;
+  --color-stamp: #a33b2b;
+  --color-on-canvas: #e7eef3;
+  --color-on-canvas-muted: #b7c9d6;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
 :root {
-  color-scheme: dark;
-  --canvas: #09090b;
-  --surface: #121215;
-  --surface-hover: #18181b;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: #27272a;
-  --text-primary: #fafafa;
-  --text-muted: #a1a1aa;
+  color-scheme: light;
 }
 
 @layer base {
   html {
     min-width: 320px;
-    background: var(--canvas);
+    background: var(--color-canvas);
   }
 
   body {
     min-height: 100vh;
     margin: 0;
-    background: var(--canvas);
-    color: var(--text-primary);
-    font-family: var(--font-sans), sans-serif;
+    background: var(--color-canvas);
+    color: var(--color-on-canvas);
+    font-family: var(--font-public), "Public Sans", sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: rgba(250, 250, 250, 0.18);
-    color: var(--text-primary);
+    background: var(--color-ink);
+    color: var(--color-surface);
   }
-}
-
-.grid-bg {
-  background-color: var(--canvas);
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-position: -1px -1px;
-  background-size: 24px 24px;
 }
 
 .caliper-meter {
   display: block;
   appearance: none;
-  background: var(--border-strong);
+  background: var(--color-line);
 }
 
 .caliper-meter::-webkit-meter-inner-element {
@@ -53,25 +51,25 @@
 }
 
 .caliper-meter::-webkit-meter-bar {
-  background: var(--border-strong);
+  background: var(--color-line);
   border: 0;
   border-radius: 0;
 }
 
 .caliper-meter::-webkit-meter-optimum-value {
-  background: var(--text-primary);
+  background: var(--color-ink);
 }
 
 .caliper-meter::-webkit-meter-suboptimum-value {
-  background: var(--text-muted);
+  background: var(--color-muted);
 }
 
 .caliper-meter::-webkit-meter-even-less-good-value {
-  background: #f87171;
+  background: var(--color-stamp);
 }
 
 .caliper-meter::-moz-meter-bar {
-  background: var(--text-primary);
+  background: var(--color-ink);
 }
 
 .caliper-slider {
@@ -86,7 +84,7 @@
 }
 
 .caliper-slider:focus-visible {
-  outline: 1px solid var(--text-muted);
+  outline: 2px solid var(--color-brass);
   outline-offset: 2px;
 }
 
@@ -97,7 +95,7 @@
 
 .caliper-slider::-webkit-slider-runnable-track {
   height: 2px;
-  background: var(--border-strong);
+  background: var(--color-line);
 }
 
 .caliper-slider::-webkit-slider-thumb {
@@ -105,21 +103,22 @@
   width: 12px;
   height: 12px;
   margin-top: -5px;
-  border: 1px solid var(--text-primary);
-  background: var(--canvas);
+  border: 1px solid var(--color-ink);
+  border-radius: 0;
+  background: var(--color-surface);
 }
 
 .caliper-slider::-moz-range-track {
   height: 2px;
-  background: var(--border-strong);
+  background: var(--color-line);
 }
 
 .caliper-slider::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  border: 1px solid var(--text-primary);
+  border: 1px solid var(--color-ink);
   border-radius: 0;
-  background: var(--canvas);
+  background: var(--color-surface);
 }
 
 @media (prefers-reduced-motion: reduce) {

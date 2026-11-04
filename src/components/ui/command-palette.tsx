@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { cn } from "../../lib/cn";
 
+import { buttonVariants } from "./button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./dialog";
 import { IconCommand, IconSearch } from "./icons";
 import { Input } from "./input";
@@ -197,7 +198,7 @@ export function CommandPalette({
       <>
         <IconCommand aria-hidden="true" />
         <span>Command menu</span>
-        <Kbd className="ml-auto border-white/8 bg-black/20 text-zinc-500">⌘ K</Kbd>
+        <Kbd className="ml-auto">⌘ K</Kbd>
       </>
     ) : (
       trigger
@@ -209,7 +210,8 @@ export function CommandPalette({
         <DialogTrigger
           aria-label={triggerAriaLabel}
           className={cn(
-            "inline-flex h-8 min-w-48 cursor-pointer items-center gap-2 rounded-sm border border-white/8 bg-[#121215] px-2.5 text-xs text-zinc-400 outline-none transition-colors hover:border-white/[0.14] hover:bg-[#18181b] hover:text-zinc-200 focus-visible:ring-1 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]",
+            buttonVariants({ variant: "outline", size: "sm" }),
+            "justify-between!",
             triggerClassName,
           )}
         >
@@ -223,8 +225,8 @@ export function CommandPalette({
           <DialogDescription>{description}</DialogDescription>
         </div>
 
-        <div className="flex h-12 items-center gap-2.5 border-b border-white/8 px-3">
-          <IconSearch aria-hidden="true" className="shrink-0 text-zinc-500" />
+        <div className="flex h-12 items-center gap-2.5 border-b border-line px-3">
+          <IconSearch aria-hidden="true" className="shrink-0 text-muted" />
           <Input
             id={`${generatedId}-query`}
             name="command-query"
@@ -235,7 +237,7 @@ export function CommandPalette({
             aria-expanded={open}
             aria-label={placeholder}
             autoComplete="off"
-            className="h-full flex-1 rounded-none border-0 px-0 text-sm focus-visible:border-transparent focus-visible:ring-0"
+            className="h-full flex-1 rounded-none border-0 bg-transparent px-0 text-sm"
             placeholder={placeholder}
             spellCheck={false}
             value={query}
@@ -263,7 +265,7 @@ export function CommandPalette({
               }
             }}
           />
-          <Kbd className="shrink-0 border-white/8 bg-black/20 text-zinc-600">ESC</Kbd>
+          <Kbd className="shrink-0">ESC</Kbd>
         </div>
 
         <div
@@ -273,7 +275,7 @@ export function CommandPalette({
           className="max-h-[min(22rem,60dvh)] overflow-y-auto p-1.5"
         >
           {filteredGroups.length === 0 ? (
-            <div role="status" className="px-3 py-10 text-center font-mono text-xs text-zinc-400">
+            <div role="status" className="px-3 py-10 text-center text-sm text-muted">
               {emptyMessage}
             </div>
           ) : (
@@ -286,15 +288,12 @@ export function CommandPalette({
                     <div
                       role="separator"
                       aria-orientation="horizontal"
-                      className="my-1.5 h-px bg-white/8"
+                      className="my-1.5 h-px bg-line"
                     />
                   ) : null}
                   <div role="group" aria-labelledby={group.label ? groupLabelId : undefined}>
                     {group.label ? (
-                      <div
-                        id={groupLabelId}
-                        className="px-2 py-1.5 font-mono text-[10px] uppercase tracking-widest text-zinc-400"
-                      >
+                      <div id={groupLabelId} className="px-2 py-1.5 text-xs text-muted">
                         {group.label}
                       </div>
                     ) : null}
@@ -320,8 +319,8 @@ export function CommandPalette({
                             aria-disabled={item.disabled || undefined}
                             aria-selected={isActive}
                             className={cn(
-                              "flex min-h-9 select-none items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-xs text-zinc-300 outline-none",
-                              isActive && !item.disabled && "bg-[#18181b] text-zinc-50",
+                              "flex min-h-9 select-none items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-sm text-ink",
+                              isActive && !item.disabled && "bg-raised",
                               item.disabled ? "cursor-not-allowed opacity-35" : "cursor-pointer",
                             )}
                             onClick={() => selectItem(item)}
@@ -333,14 +332,14 @@ export function CommandPalette({
                             }}
                           >
                             {item.icon ? (
-                              <span aria-hidden="true" className="shrink-0 text-zinc-500">
+                              <span aria-hidden="true" className="shrink-0 text-muted">
                                 {item.icon}
                               </span>
                             ) : null}
                             <span className="min-w-0 flex-1">
                               <span className="block truncate">{item.label}</span>
                               {item.description ? (
-                                <span className="mt-0.5 block truncate text-[11px] text-zinc-400">
+                                <span className="mt-0.5 block truncate text-[11px] text-muted">
                                   {item.description}
                                 </span>
                               ) : null}
@@ -348,12 +347,7 @@ export function CommandPalette({
                             {shortcuts?.length ? (
                               <span className="ml-auto flex shrink-0 gap-1">
                                 {shortcuts.map((shortcut, shortcutIndex) => (
-                                  <Kbd
-                                    key={`${shortcut}-${shortcutIndex}`}
-                                    className="border-white/8 bg-black/20 text-zinc-600"
-                                  >
-                                    {shortcut}
-                                  </Kbd>
+                                  <Kbd key={`${shortcut}-${shortcutIndex}`}>{shortcut}</Kbd>
                                 ))}
                               </span>
                             ) : null}

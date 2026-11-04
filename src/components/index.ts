@@ -1,7 +1,6 @@
 export * from "./ui/icons";
 export * from "./ui/kbd";
 export * from "./ui/button";
-export * from "./ui/bento-grid";
 export * from "./ui/table";
 export * from "./ui/input";
 export * from "./ui/dialog";

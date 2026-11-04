@@ -13,31 +13,31 @@ export const COMPONENTS = [
   {
     id: "button",
     name: "Button",
-    behavior: "4 variants · 3 sizes",
+    behavior: "4 variants, 3 sizes",
     source: "button.tsx",
   },
   {
     id: "input",
     name: "Input",
-    behavior: "Native props · invalid state",
+    behavior: "Native input, invalid state",
     source: "input.tsx",
   },
   {
     id: "dialog",
     name: "Dialog",
-    behavior: "Native <dialog> · controlled or uncontrolled",
+    behavior: "Native dialog, controlled or uncontrolled",
     source: "dialog.tsx",
   },
   {
     id: "command-palette",
     name: "Command Palette",
-    behavior: "Search · arrows · Enter · ⌘/Ctrl K",
+    behavior: "Search, arrows, Enter, ⌘K or Ctrl+K",
     source: "command-palette.tsx",
   },
   {
     id: "table",
     name: "Table",
-    behavior: "Semantic parts · horizontal overflow",
+    behavior: "Semantic table, scrolls sideways",
     source: "table.tsx",
   },
   {
@@ -49,13 +49,13 @@ export const COMPONENTS = [
   {
     id: "field",
     name: "Field",
-    behavior: "Visible label · hint · error",
+    behavior: "Label, hint, and error",
     source: "field.tsx",
   },
   {
     id: "gauge",
     name: "Gauge",
-    behavior: "Native <meter> · numeric readout",
+    behavior: "Native meter and a readout",
     source: "gauge.tsx",
   },
   {
@@ -67,26 +67,20 @@ export const COMPONENTS = [
   {
     id: "select",
     name: "Select",
-    behavior: "Menu picker · form value",
+    behavior: "Native select",
     source: "select.tsx",
   },
   {
     id: "dropdown-menu",
     name: "Dropdown Menu",
-    behavior: "Popover · submenu · separator",
+    behavior: "Popover menu, submenu, separator",
     source: "dropdown-menu.tsx",
   },
   {
     id: "disclosure",
     name: "Disclosure",
-    behavior: "Native <details>",
+    behavior: "Native details",
     source: "disclosure.tsx",
-  },
-  {
-    id: "bento-grid",
-    name: "Bento Grid",
-    behavior: "Dense specification grid",
-    source: "bento-grid.tsx",
   },
   {
     id: "icons",

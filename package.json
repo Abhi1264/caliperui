@@ -22,7 +22,6 @@
     "./gauge": "./src/components/ui/gauge.tsx",
     "./kbd": "./src/components/ui/kbd.tsx",
     "./table": "./src/components/ui/table.tsx",
-    "./bento-grid": "./src/components/ui/bento-grid.tsx",
     "./dialog": "./src/components/ui/dialog.tsx",
     "./command-palette": "./src/components/ui/command-palette.tsx",
     "./disclosure": "./src/components/ui/disclosure.tsx",
@@ -66,5 +65,5 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "pnpm@12.2.1"
+  "packageManager": "pnpm@12.16.1"
 }

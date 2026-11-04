@@ -188,7 +188,7 @@ export const DialogContent = React.forwardRef<HTMLDialogElement, DialogContentPr
         aria-describedby={ariaDescribedBy ?? descriptionId}
         aria-labelledby={ariaLabelledBy ?? titleId}
         className={cn(
-          "relative m-auto max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100vw-2rem))] overflow-y-auto rounded-md border border-white/8 bg-[#121215] p-0 text-zinc-100 outline-none shadow-none backdrop:bg-black/70 backdrop:backdrop-blur-sm",
+          "relative m-auto max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100vw-2rem))] overflow-y-auto rounded-md border border-line bg-surface p-0 text-ink shadow-none backdrop:bg-ink/70",
           className,
         )}
         onCancel={(event) => {
@@ -225,7 +225,7 @@ export const DialogContent = React.forwardRef<HTMLDialogElement, DialogContentPr
         {showCloseButton ? (
           <DialogClose
             aria-label={closeLabel}
-            className="absolute right-3 top-3 inline-flex size-7 items-center justify-center rounded-sm border border-transparent text-zinc-500 outline-none transition-colors hover:border-white/8 hover:bg-[#18181b] hover:text-zinc-100 focus-visible:ring-1 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121215]"
+            className="absolute right-3 top-3 inline-flex size-7 items-center justify-center rounded-sm border border-transparent text-muted transition-colors hover:border-line hover:bg-raised hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
           >
             <IconClose aria-hidden="true" />
           </DialogClose>
@@ -247,7 +247,7 @@ export const DialogTitle = React.forwardRef<HTMLHeadingElement, DialogTitleProps
       <h2
         ref={ref}
         id={titleId}
-        className={cn("text-sm font-medium text-zinc-50", className)}
+        className={cn("text-sm font-medium text-ink", className)}
         {...props}
       />
     );
@@ -266,7 +266,7 @@ export const DialogDescription = React.forwardRef<HTMLParagraphElement, DialogDe
       <p
         ref={ref}
         id={descriptionId}
-        className={cn("mt-1.5 text-xs leading-5 text-zinc-400", className)}
+        className={cn("mt-1.5 text-xs leading-5 text-muted", className)}
         {...props}
       />
     );

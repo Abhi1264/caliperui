@@ -7,7 +7,7 @@ import { cn } from "../../lib/cn";
 import { Button, type ButtonProps } from "./button";
 
 const itemClass =
-  "flex h-8 w-full cursor-pointer items-center rounded-[3px] px-2.5 text-left font-mono text-xs text-zinc-300 outline-none hover:bg-[#18181b] hover:text-zinc-50 focus:bg-[#18181b] focus:text-zinc-50 disabled:pointer-events-none disabled:opacity-40 aria-current:bg-[#18181b] aria-current:text-zinc-50";
+  "flex h-8 w-full cursor-pointer items-center rounded-[3px] px-2.5 text-left text-sm text-ink hover:bg-raised focus:bg-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass disabled:pointer-events-none disabled:opacity-40 aria-current:bg-raised";
 
 interface DropdownMenuContextValue {
   id: string;
@@ -116,7 +116,7 @@ export const DropdownMenuTrigger = React.forwardRef<HTMLButtonElement, ButtonPro
         <span
           aria-hidden="true"
           className={cn(
-            "font-mono text-[10px] text-zinc-400 transition-transform duration-150",
+            "text-sm text-muted transition-transform duration-150",
             open && "rotate-45",
           )}
         >
@@ -145,7 +145,7 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
         popover="auto"
         role="menu"
         className={cn(
-          "m-0 max-h-64 min-w-44 overflow-y-auto rounded-sm border border-white/8 bg-[#121215] p-0.5 text-zinc-100 inset-auto",
+          "m-0 max-h-64 min-w-44 overflow-y-auto rounded-sm border border-line bg-surface p-0.5 text-ink inset-auto",
           className,
         )}
         onToggle={(event) => {
@@ -260,7 +260,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<HTMLButtonElement, Dropdo
         aria-controls={id}
       >
         {children}
-        <span aria-hidden="true" className="font-mono text-[10px] text-zinc-400">
+        <span aria-hidden="true" className="text-sm text-muted">
           ›
         </span>
       </button>
@@ -278,7 +278,7 @@ export const DropdownMenuSeparator = React.forwardRef<
     {...props}
     ref={ref}
     role="separator"
-    className={cn("mx-1 my-0.5 border-0 border-t border-white/8", className)}
+    className={cn("mx-1 my-0.5 border-0 border-t border-line", className)}
   />
 ));
 

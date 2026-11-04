@@ -22,7 +22,6 @@ import {
   Kbd,
 } from "@/components";
 import { useClipboard } from "@/lib/clipboard";
-import { cn } from "@/lib/cn";
 
 import { COMPONENTS } from "./showcase-data";
 import styles from "./page.module.css";
@@ -96,8 +95,7 @@ export function SiteDialog({ children }: { children: ReactNode }) {
       <DialogContent className={styles.dialogContent}>
         <DialogTitle className={styles.dialogTitle}>Dialog demo</DialogTitle>
         <DialogDescription className={styles.dialogDescription}>
-          This example uses the browser’s native dialog element. Press Escape, click the backdrop,
-          or choose Close.
+          Press Escape, click outside the dialog, or choose Close.
         </DialogDescription>
         <div className={styles.dialogActions}>
           <DialogClose className={buttonVariants({ variant: "solid" })}>Close dialog</DialogClose>
@@ -172,7 +170,6 @@ export function SiteCommandMenu() {
           <Kbd>⌘K</Kbd>
         </>
       }
-      triggerClassName={cn(buttonVariants({ variant: "outline", size: "sm" }), styles.searchButton)}
     />
   );
 }

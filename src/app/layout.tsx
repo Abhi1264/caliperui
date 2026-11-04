@@ -1,18 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Barlow_Condensed, Public_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "../styles/globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const publicSans = Public_Sans({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-public",
 });
 
-const geistMono = Geist_Mono({
+const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  variable: "--font-mono",
+  weight: ["500", "600"],
+  variable: "--font-dial",
 });
 
 export const metadata: Metadata = {
@@ -29,12 +30,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#09090b",
+  themeColor: "#184e78",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${publicSans.variable} ${barlowCondensed.variable}`}>
       <body>
         {children}
         <Analytics />

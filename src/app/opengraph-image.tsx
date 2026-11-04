@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Caliper UI — zero-dependency React primitives on native HTML and Tailwind CSS";
+export const alt = "Caliper UI — typed React components on native HTML and Tailwind CSS";
 export const size = {
   width: 1200,
   height: 630,
@@ -16,52 +16,25 @@ export default function OpenGraphImage() {
         justifyContent: "space-between",
         width: "100%",
         height: "100%",
-        backgroundColor: "#09090b",
-        color: "#fafafa",
+        backgroundColor: "#184e78",
+        color: "#e7eef3",
         padding: 72,
       }}
     >
       <div
         style={{
           display: "flex",
-          fontSize: 22,
+          fontSize: 28,
           letterSpacing: 6,
-          color: "#a1a1aa",
+          color: "#e6c98a",
         }}
       >
         CALIPER UI
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 64,
-            lineHeight: 1.05,
-            letterSpacing: -2,
-          }}
-        >
-          Engineered for precision.
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 12,
-            fontSize: 64,
-            lineHeight: 1.05,
-            letterSpacing: -2,
-            color: "#a1a1aa",
-          }}
-        >
-          Built with zero dependencies.
-        </div>
+      <div style={{ display: "flex", fontSize: 68, lineHeight: 1.05, letterSpacing: -1.5 }}>
+        Typed React components on native HTML.
       </div>
-      <div
-        style={{
-          display: "flex",
-          fontSize: 22,
-          color: "#a1a1aa",
-        }}
-      >
+      <div style={{ display: "flex", fontSize: 22, color: "#b7c9d6" }}>
         caliperui.abhinavkumar.site
       </div>
     </div>,

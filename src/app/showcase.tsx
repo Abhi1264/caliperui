@@ -2,8 +2,6 @@ import { useId } from "react";
 import Link from "next/link";
 
 import {
-  BentoCard,
-  BentoGrid,
   Button,
   DialogTrigger,
   Disclosure,
@@ -47,11 +45,7 @@ import {
 import { COMPONENTS, INSTALL_COMMANDS, PACKAGE_MANAGERS } from "./showcase-data";
 import styles from "./page.module.css";
 
-const TOKENS = [
-  { value: "#09090b", label: "Canvas" },
-  { value: "#121215", label: "Surface" },
-  { value: "#18181b", label: "Raised" },
-] as const;
+const SCALE_MARKS = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100] as const;
 
 function GitHubMark() {
   return (
@@ -69,9 +63,9 @@ export function Showcase() {
   return (
     <SiteDialog>
       <div className={styles.page}>
-        <Link className={styles.skipLink} href="/">
+        <a className={styles.skipLink} href="#content">
           Skip to content
-        </Link>
+        </a>
 
         <header className={styles.header}>
           <div className={styles.headerInner}>
@@ -97,25 +91,29 @@ export function Showcase() {
           </div>
         </header>
 
-        <main>
-          <section className={`${styles.hero} grid-bg`}>
+        <main id="content" tabIndex={-1} className={styles.focusTarget}>
+          <section className={styles.hero}>
+            <div className={styles.rulerRow}>
+              <div className={styles.ruler} aria-hidden="true">
+                {SCALE_MARKS.map((mark) => (
+                  <span key={mark} style={{ left: mark }}>
+                    {mark}
+                  </span>
+                ))}
+              </div>
+              <span className={styles.rulerUnit} aria-hidden="true">
+                px
+              </span>
+            </div>
             <div className={styles.heroTop}>
               <div className={styles.heroCopy}>
-                <p className={styles.eyebrow}>Source-owned React primitives</p>
-                <h1 className={styles.headline}>
-                  Caliper UI.{" "}
-                  <span className={styles.headlineSecondary}>Engineered for precision.</span>
-                </h1>
-                <p className={styles.heroDescription}>
-                  Typed React components on native browser APIs and Tailwind CSS. No runtime package
-                  beyond React.
+                <h1 className={styles.headline}>Caliper UI</h1>
+                <p className={styles.lede}>
+                  Typed React components on native HTML and Tailwind. React is the only dependency.
                 </p>
                 <div className={styles.heroActions}>
                   <Link className={buttonVariants({ variant: "solid" })} href="#components">
-                    Explore components
-                  </Link>
-                  <Link className={buttonVariants({ variant: "outline" })} href="#features">
-                    Review implementation
+                    See components
                   </Link>
                 </div>
 
@@ -185,7 +183,7 @@ export function Showcase() {
                   </div>
 
                   <div id="preview-field" className={styles.previewPanel} data-preview-panel>
-                    <Field label="Name" htmlFor={nameId} hint="Visible label and hint.">
+                    <Field label="Name" htmlFor={nameId} hint="Shown under the field.">
                       <Input id={nameId} defaultValue="Caliper" />
                     </Field>
                   </div>
@@ -225,7 +223,7 @@ export function Showcase() {
                     data-preview-panel
                   >
                     <div className={styles.dialogStage}>
-                      <p>Arrows, Enter, Escape. Right opens a submenu.</p>
+                      <p>Arrow keys move. Enter runs the item. Right opens the submenu.</p>
                       <DropdownMenu>
                         <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
                         <DropdownMenuContent>
@@ -289,18 +287,9 @@ export function Showcase() {
                     </Table>
                   </div>
 
-                  <div id="preview-bento-grid" className={styles.previewPanel} data-preview-panel>
-                    <BentoGrid className="md:grid-cols-2">
-                      <BentoCard title="Surface" description="Cards use the raised canvas." />
-                      <BentoCard title="Hairline" description="Borders stay at 1px." />
-                    </BentoGrid>
-                  </div>
-
                   <div id="preview-dialog" className={styles.previewPanel} data-preview-panel>
                     <div className={styles.dialogStage}>
-                      <p>
-                        Open the dialog, then try Tab, Shift+Tab, Escape, and the close controls.
-                      </p>
+                      <p>Open the dialog, then try Tab, Shift+Tab, and Escape.</p>
                       <DialogTrigger className={buttonVariants({ variant: "solid" })}>
                         Open dialog
                       </DialogTrigger>
@@ -313,7 +302,7 @@ export function Showcase() {
                     data-preview-panel
                   >
                     <div className={styles.dialogStage}>
-                      <p>Use the header command menu, or press ⌘K / Ctrl+K.</p>
+                      <p>Use the header command menu, or press ⌘K or Ctrl+K.</p>
                     </div>
                   </div>
                 </div>
@@ -321,50 +310,30 @@ export function Showcase() {
             </div>
           </section>
 
-          <section
-            id="features"
-            className={`${styles.sectionFrame} ${styles.focusTarget}`}
-            tabIndex={-1}
-          >
-            <div className={styles.sectionHeader}>
-              <div>
-                <span className={styles.sectionKicker}>Implementation</span>
-                <h2 className={styles.sectionTitle}>
-                  Review the implementation before you copy it.
-                </h2>
-              </div>
-              <p className={styles.sectionDescription}>
-                The preview uses React, native browser APIs, Tailwind CSS, and one local helper.
-              </p>
-            </div>
-
-            <BentoGrid className={styles.bentoGrid}>
-              <BentoCard
-                className={styles.bentoCard}
-                title="No component-library runtime"
-                description="The primitives import React and a local class helper. Dialog behavior uses the browser’s native dialog element."
+          <div className={styles.sheet}>
+            <div className={styles.sheetInner}>
+              <section
+                id="features"
+                className={`${styles.section} ${styles.focusTarget}`}
+                tabIndex={-1}
               >
-                <dl className={styles.factList}>
+                <h2 className={styles.sectionTitle}>What you install</h2>
+                <dl className={styles.facts}>
                   <div>
-                    <dt>Runtime requirement</dt>
+                    <dt>Runtime</dt>
                     <dd>React</dd>
                   </div>
                   <div>
-                    <dt>Build-time styling</dt>
+                    <dt>Styling</dt>
                     <dd>Tailwind CSS</dd>
                   </div>
                   <div>
-                    <dt>Local helper</dt>
+                    <dt>Helper</dt>
                     <dd>cn</dd>
                   </div>
                 </dl>
-              </BentoCard>
 
-              <BentoCard
-                className={styles.bentoCard}
-                title="Keyboard behavior"
-                description="Keys supported by the command menu and dialog."
-              >
+                <h3 className={styles.subTitle}>Command menu</h3>
                 <div className={styles.keyGrid}>
                   <div className={styles.keyBinding}>
                     <span>Open command menu</span>
@@ -389,90 +358,65 @@ export function Showcase() {
                     <Kbd>Esc</Kbd>
                   </div>
                 </div>
-              </BentoCard>
+              </section>
 
-              <BentoCard
-                className={styles.bentoCard}
-                title="Surface colors"
-                description="Three background colors used by this preview."
+              <section
+                id="components"
+                className={`${styles.section} ${styles.focusTarget}`}
+                tabIndex={-1}
               >
-                <div className={styles.swatchGrid}>
-                  {TOKENS.map((token) => (
-                    <div key={token.value} className={styles.swatch}>
-                      <span
-                        className={styles.swatchColor}
-                        style={{ backgroundColor: token.value }}
-                      />
-                      <span className={styles.swatchText}>
-                        {token.label}
-                        <br />
-                        {token.value}
-                      </span>
-                    </div>
-                  ))}
+                <div className={styles.sectionHeader}>
+                  <h2 className={styles.sectionTitle}>Components</h2>
+                  <p className={styles.sectionDescription}>
+                    Choose a name to open it in the preview.
+                  </p>
                 </div>
-              </BentoCard>
-            </BentoGrid>
-          </section>
 
-          <section
-            id="components"
-            className={`${styles.sectionFrame} ${styles.focusTarget}`}
-            tabIndex={-1}
-          >
-            <div className={styles.sectionHeader}>
-              <div>
-                <span className={styles.sectionKicker}>Inventory</span>
-                <h2 className={styles.sectionTitle}>Components in this library.</h2>
+                <div className={styles.densityShell}>
+                  <Table className={styles.table}>
+                    <TableCaption>Components and the files they live in.</TableCaption>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead scope="col">Component</TableHead>
+                        <TableHead scope="col">Behavior</TableHead>
+                        <TableHead scope="col">Source file</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {COMPONENTS.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell className={styles.componentCell}>
+                            <a className={styles.componentLink} href={`#preview-${row.id}`}>
+                              {row.name}
+                            </a>
+                          </TableCell>
+                          <TableCell>{row.behavior}</TableCell>
+                          <TableCell className={styles.sourceCell}>{row.source}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </section>
+            </div>
+
+            <footer className={styles.footer}>
+              <div className={styles.footerInner}>
+                <span className={styles.footerWordmark}>
+                  <img className={styles.brandMark} src="/icon.svg" alt="" width={18} height={18} />
+                  CALIPER UI
+                </span>
+                <div className={styles.footerLinks}>
+                  <Link href="#components">Components</Link>
+                  <Link href={SITE_GITHUB} rel="noreferrer" target="_blank">
+                    <GitHubMark />
+                    GitHub
+                  </Link>
+                </div>
               </div>
-              <p className={styles.sectionDescription}>
-                Each name opens that primitive in the preview.
-              </p>
-            </div>
-
-            <div className={styles.densityShell}>
-              <Table className={styles.table}>
-                <TableCaption>Implemented UI primitives and their source files.</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead scope="col">Component</TableHead>
-                    <TableHead scope="col">Behavior</TableHead>
-                    <TableHead scope="col">Source file</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {COMPONENTS.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell className={styles.componentCell}>
-                        <a className={styles.componentLink} href={`#preview-${row.id}`}>
-                          {row.name}
-                        </a>
-                      </TableCell>
-                      <TableCell>{row.behavior}</TableCell>
-                      <TableCell className={styles.sourceCell}>{row.source}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </section>
-        </main>
-
-        <footer className={styles.footer}>
-          <div className={styles.footerInner}>
-            <span className={styles.footerWordmark}>
-              <img className={styles.brandMark} src="/icon.svg" alt="" width={18} height={18} />
-              CALIPER UI
-            </span>
-            <div className={styles.footerLinks}>
-              <Link href="#components">Components</Link>
-              <Link href={SITE_GITHUB} rel="noreferrer" target="_blank">
-                <GitHubMark />
-                GitHub
-              </Link>
-            </div>
+            </footer>
           </div>
-        </footer>
+        </main>
       </div>
     </SiteDialog>
   );
