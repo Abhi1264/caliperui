@@ -6,7 +6,7 @@ import { cn } from "../../lib/cn";
 export type ButtonVariant = "outline" | "ghost" | "solid" | "destructive";
 export type ButtonSize = "sm" | "md" | "icon";
 
-const focus = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+const focus = "focus-visible:outline-2 focus-visible:outline-focus focus-visible:focus-pair";
 
 const base = `inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] border text-xs font-medium leading-none transition-colors duration-150 disabled:pointer-events-none disabled:opacity-40 [&_svg]:shrink-0 ${focus}`;
 

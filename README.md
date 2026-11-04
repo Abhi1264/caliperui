@@ -43,25 +43,29 @@ import { Button } from "caliper-ui/button";
 import { Dialog } from "caliper-ui/dialog";
 ```
 
-The barrel `import { Button } from "caliper-ui"` still works. Other entry points: `input`, `field`, `select`, `dropdown-menu`, `slider`, `gauge`, `kbd`, `table`, `command-palette`, `disclosure`, `icons`, `cn`, `clipboard`, `styles.css`.
+The barrel `import { Button } from "caliper-ui"` still works. Other entry points: `input`, `textarea`, `checkbox`, `radio-group`, `progress`, `field`, `select`, `dropdown-menu`, `slider`, `gauge`, `kbd`, `table`, `command-palette`, `disclosure`, `icons`, `cn`, `clipboard`, `styles.css`.
 
 ## Primitives
 
-| Primitive                 | What it is                                |
-| ------------------------- | ----------------------------------------- |
-| `Button`                  | Variants and sizes on a native `<button>` |
-| `Input`                   | Native text input                         |
-| `Field`                   | Visible label, hint, and error            |
-| `Select`                  | Native `<select>`                         |
-| `DropdownMenu`            | Native `popover` menu, submenu, separator |
-| `Slider`                  | Native range input                        |
-| `Gauge`                   | Native `<meter>` plus a numeric readout   |
-| `Kbd`                     | Keyboard key labels                       |
-| `Table`                   | Semantic table parts                      |
-| `Dialog`                  | Controlled or uncontrolled `<dialog>`     |
-| `CommandPalette`          | Searchable command menu (`⌘`/`Ctrl`+`K`)  |
-| `Disclosure`              | Native `<details>`                        |
-| Icons                     | Inline SVGs                               |
+| Primitive        | What it is                                |
+| ---------------- | ----------------------------------------- |
+| `Button`         | Variants and sizes on a native `<button>` |
+| `Input`          | Native text input                         |
+| `Textarea`       | Native textarea                           |
+| `Checkbox`       | Native checkbox with a visible label      |
+| `RadioGroup`     | Native radios in a fieldset               |
+| `Progress`       | Native progress bar                       |
+| `Field`          | Visible label, hint, and error            |
+| `Select`         | Native `<select>`                         |
+| `DropdownMenu`   | Native `popover` menu, submenu, separator |
+| `Slider`         | Native range input                        |
+| `Gauge`          | Native `<meter>` plus a numeric readout   |
+| `Kbd`            | Keyboard key labels                       |
+| `Table`          | Semantic table parts                      |
+| `Dialog`         | Controlled or uncontrolled `<dialog>`     |
+| `CommandPalette` | Searchable command menu (`⌘`/`Ctrl`+`K`)  |
+| `Disclosure`     | Native `<details>`                        |
+| Icons            | Inline SVGs                               |
 
 Helpers: `cn`, `copyToClipboard`, `useClipboard`. Tokens live in `caliper-ui/styles.css`.
 

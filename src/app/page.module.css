@@ -6,8 +6,9 @@
 }
 
 .focusTarget:focus {
-  outline: 2px solid var(--color-brass);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 2px var(--color-ink);
 }
 
 .focusTarget {
@@ -63,6 +64,7 @@
 }
 
 .wordmark {
+  flex-shrink: 0;
   gap: 10px;
   color: var(--color-on-canvas);
   font-family: var(--font-dial), "Barlow Condensed", sans-serif;
@@ -81,6 +83,9 @@
 }
 
 .headerActions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 0;
   gap: 4px;
 }
 
@@ -108,12 +113,28 @@
 }
 
 .headerLink:focus-visible,
+.themeSelect:focus-visible,
 .installTab:focus-visible,
 .installCopy:focus-visible,
 .componentLink:focus-visible,
 .footerInner a:focus-visible {
-  outline: 2px solid var(--color-brass);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 2px var(--color-ink);
+}
+
+.themeControl {
+  display: inline-flex;
+}
+
+.themeSelect {
+  min-height: 36px;
+  border: 0;
+  background: transparent;
+  color: var(--color-on-canvas);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .rulerRow {
@@ -125,7 +146,7 @@
 .ruler {
   position: relative;
   flex: 1;
-  height: 42px;
+  height: 44px;
   overflow: hidden;
   border-bottom: 1px solid var(--color-brass);
   background-image: repeating-linear-gradient(
@@ -136,6 +157,9 @@
   background-position: left bottom;
   background-repeat: repeat-x;
   background-size: auto 12px;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
 }
 
 .ruler span {
@@ -157,6 +181,50 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.08em;
+}
+
+.jaw {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 1px;
+  background: var(--color-brass);
+  pointer-events: none;
+}
+
+.jaw::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 5px;
+  background: var(--color-brass);
+}
+
+.jaw[data-flip]::before {
+  left: auto;
+  right: 0;
+}
+
+.jawRead {
+  position: absolute;
+  top: 1px;
+  left: 10px;
+  color: var(--color-brass);
+  font-family: var(--font-dial), "Barlow Condensed", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.jaw[data-flip] .jawRead {
+  left: auto;
+  right: 10px;
 }
 
 .heroTop {
@@ -548,11 +616,32 @@
 }
 
 @media (pointer: coarse) {
+  .headerActions {
+    gap: 8px;
+  }
+
   .headerLink,
+  .headerCommand,
+  .themeSelect,
   .installTab,
   .installCopy,
   .footerInner a {
     min-height: 44px;
+  }
+
+  .themeSelect {
+    min-width: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruler {
+    cursor: auto;
+    touch-action: auto;
+  }
+
+  .jaw {
+    display: none;
   }
 }
 
@@ -574,6 +663,19 @@
   }
 }
 
+@media (max-width: 520px) {
+  .headerInner {
+    flex-wrap: wrap;
+    row-gap: 2px;
+    padding-block: 8px;
+  }
+
+  .headerActions {
+    flex: 1 0 100%;
+    justify-content: flex-start;
+  }
+}
+
 @media (max-width: 720px) {
   .headerInner,
   .hero,
@@ -592,7 +694,8 @@
     font-size: 13px;
   }
 
-  .searchLabel > span {
+  .searchLabel > span,
+  .headerKbd {
     display: none;
   }
 

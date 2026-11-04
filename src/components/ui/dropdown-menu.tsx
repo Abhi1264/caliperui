@@ -7,7 +7,7 @@ import { cn } from "../../lib/cn";
 import { Button, type ButtonProps } from "./button";
 
 const itemClass =
-  "flex h-8 w-full cursor-pointer items-center rounded-[3px] px-2.5 text-left text-sm text-ink hover:bg-raised focus:bg-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass disabled:pointer-events-none disabled:opacity-40 aria-current:bg-raised";
+  "flex h-8 w-full cursor-pointer items-center rounded-[3px] px-2.5 text-left text-sm text-ink hover:bg-raised focus:bg-raised focus-visible:outline-2 focus-visible:outline-focus focus-visible:focus-pair disabled:pointer-events-none disabled:opacity-40 aria-current:bg-raised";
 
 interface DropdownMenuContextValue {
   id: string;

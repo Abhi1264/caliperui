@@ -188,7 +188,7 @@ export const DialogContent = React.forwardRef<HTMLDialogElement, DialogContentPr
         aria-describedby={ariaDescribedBy ?? descriptionId}
         aria-labelledby={ariaLabelledBy ?? titleId}
         className={cn(
-          "relative m-auto max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100vw-2rem))] overflow-y-auto rounded-md border border-line bg-surface p-0 text-ink shadow-none backdrop:bg-ink/70",
+          "relative m-auto max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100vw-2rem))] overflow-y-auto rounded-md border border-line bg-surface p-0 text-ink shadow-none",
           className,
         )}
         onCancel={(event) => {
@@ -225,7 +225,7 @@ export const DialogContent = React.forwardRef<HTMLDialogElement, DialogContentPr
         {showCloseButton ? (
           <DialogClose
             aria-label={closeLabel}
-            className="absolute right-3 top-3 inline-flex size-7 items-center justify-center rounded-sm border border-transparent text-muted transition-colors hover:border-line hover:bg-raised hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
+            className="absolute right-3 top-3 inline-flex size-7 items-center justify-center rounded-sm border border-transparent text-muted transition-colors hover:border-line hover:bg-raised hover:text-ink focus-visible:outline-2 focus-visible:outline-focus focus-visible:focus-pair"
           >
             <IconClose aria-hidden="true" />
           </DialogClose>

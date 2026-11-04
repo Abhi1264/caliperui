@@ -14,7 +14,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         ref={ref}
         id={id ?? generatedId}
         className={cn(
-          "h-9 w-full rounded-sm border border-line bg-surface px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass disabled:cursor-not-allowed disabled:opacity-40",
+          "h-9 w-full rounded-sm border border-line bg-surface px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-focus focus-visible:focus-pair disabled:cursor-not-allowed disabled:opacity-40",
           className,
         )}
         {...props}

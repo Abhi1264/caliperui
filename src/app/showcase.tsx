@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import {
   Button,
+  Checkbox,
   DialogTrigger,
   Disclosure,
   DropdownMenu,
@@ -22,8 +23,11 @@ import {
   IconSearch,
   Input,
   Kbd,
+  Progress,
+  RadioGroup,
   Select,
   Slider,
+  Textarea,
   Table,
   TableBody,
   TableCaption,
@@ -34,18 +38,19 @@ import {
   buttonVariants,
 } from "@/components";
 import { SITE_GITHUB } from "@/lib/site";
+import type { ThemeChoice } from "@/lib/theme";
 
 import {
   InstallCopy,
+  LiveRuler,
   OpenDialogMenuItem,
   PreviewPicker,
   SiteCommandMenu,
   SiteDialog,
+  ThemeToggle,
 } from "./showcase-client";
 import { COMPONENTS, INSTALL_COMMANDS, PACKAGE_MANAGERS } from "./showcase-data";
 import styles from "./page.module.css";
-
-const SCALE_MARKS = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100] as const;
 
 function GitHubMark() {
   return (
@@ -55,10 +60,12 @@ function GitHubMark() {
   );
 }
 
-export function Showcase() {
+export function Showcase({ theme }: { theme: ThemeChoice }) {
   const spanId = useId();
   const unitId = useId();
   const nameId = useId();
+  const noteId = useId();
+  const readId = useId();
 
   return (
     <SiteDialog>
@@ -87,24 +94,14 @@ export function Showcase() {
                 <GitHubMark />
                 GitHub
               </Link>
+              <ThemeToggle initial={theme} />
             </nav>
           </div>
         </header>
 
         <main id="content" tabIndex={-1} className={styles.focusTarget}>
           <section className={styles.hero}>
-            <div className={styles.rulerRow}>
-              <div className={styles.ruler} aria-hidden="true">
-                {SCALE_MARKS.map((mark) => (
-                  <span key={mark} style={{ left: mark }}>
-                    {mark}
-                  </span>
-                ))}
-              </div>
-              <span className={styles.rulerUnit} aria-hidden="true">
-                px
-              </span>
-            </div>
+            <LiveRuler />
             <div className={styles.heroTop}>
               <div className={styles.heroCopy}>
                 <h1 className={styles.headline}>Caliper UI</h1>
@@ -182,6 +179,33 @@ export function Showcase() {
                     <Input aria-label="Preview input" placeholder="Type in a native input" />
                   </div>
 
+                  <div id="preview-textarea" className={styles.previewPanel} data-preview-panel>
+                    <Field label="Note" htmlFor={noteId}>
+                      <Textarea
+                        id={noteId}
+                        rows={3}
+                        defaultValue="Jaw rests on the preview width."
+                      />
+                    </Field>
+                  </div>
+
+                  <div id="preview-checkbox" className={styles.previewPanel} data-preview-panel>
+                    <Checkbox label="Zero the jaw" defaultChecked />
+                  </div>
+
+                  <div id="preview-radio-group" className={styles.previewPanel} data-preview-panel>
+                    <RadioGroup
+                      legend="Unit"
+                      name="preview-unit"
+                      defaultValue="px"
+                      options={[
+                        { value: "px", label: "px" },
+                        { value: "pt", label: "pt" },
+                        { value: "%", label: "%" },
+                      ]}
+                    />
+                  </div>
+
                   <div id="preview-field" className={styles.previewPanel} data-preview-panel>
                     <Field label="Name" htmlFor={nameId} hint="Shown under the field.">
                       <Input id={nameId} defaultValue="Caliper" />
@@ -191,6 +215,12 @@ export function Showcase() {
                   <div id="preview-slider" className={styles.previewPanel} data-preview-panel>
                     <Field label="Span" htmlFor={spanId}>
                       <Slider id={spanId} min={0} max={100} defaultValue={64} />
+                    </Field>
+                  </div>
+
+                  <div id="preview-progress" className={styles.previewPanel} data-preview-panel>
+                    <Field label="64%" htmlFor={readId}>
+                      <Progress id={readId} max={100} value={64} />
                     </Field>
                   </div>
 

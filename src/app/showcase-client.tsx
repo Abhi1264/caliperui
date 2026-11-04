@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
 
 import {
   buttonVariants,
@@ -161,13 +168,14 @@ export function SiteCommandMenu() {
       placeholder="Search components…"
       emptyMessage="No matching commands."
       triggerAriaLabel="Command menu ⌘K"
+      triggerClassName={styles.headerCommand}
       trigger={
         <>
           <span className={styles.searchLabel}>
             <IconSearch />
             <span>Command menu</span>
           </span>
-          <Kbd>⌘K</Kbd>
+          <Kbd className={styles.headerKbd}>⌘K</Kbd>
         </>
       }
     />
@@ -228,4 +236,132 @@ export function OpenDialogMenuItem() {
 
 export function openDemoDialog() {
   document.querySelector<HTMLButtonElement>("[data-open-dialog]")?.click();
+}
+
+const SCALE_MARKS = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100] as const;
+type Theme = "light" | "dark" | "system";
+
+export function ThemeToggle({ initial }: { initial: Theme }) {
+  const [mode, setMode] = useState<Theme>(initial);
+
+  return (
+    <label className={styles.themeControl}>
+      <span className="sr-only">Theme</span>
+      <select
+        className={styles.themeSelect}
+        value={mode}
+        onChange={(event) => {
+          const next = event.target.value as Theme;
+          document.cookie = `caliper-theme=${next}; Path=/; Max-Age=31536000; SameSite=Lax`;
+          document.documentElement.setAttribute("data-theme", next);
+          setMode(next);
+        }}
+      >
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">System</option>
+      </select>
+    </label>
+  );
+}
+
+function motionReduced() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+export function LiveRuler() {
+  const rulerRef = useRef<HTMLDivElement>(null);
+  const restRef = useRef(0);
+  const trackingRef = useRef(false);
+  const [reading, setReading] = useState<number | null>(null);
+  const [width, setWidth] = useState(0);
+
+  useLayoutEffect(() => {
+    if (motionReduced()) return;
+    const ruler = rulerRef.current;
+    const preview = document.getElementById("preview");
+    if (!ruler || !preview) return;
+
+    const measure = () => {
+      const nextWidth = ruler.getBoundingClientRect().width;
+      const next = Math.round(
+        Math.min(Math.max(preview.getBoundingClientRect().width, 0), nextWidth),
+      );
+      restRef.current = next;
+      setWidth(nextWidth);
+      if (!trackingRef.current) setReading(next);
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(ruler);
+    observer.observe(preview);
+    return () => observer.disconnect();
+  }, []);
+
+  function point(event: ReactPointerEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    return Math.round(Math.min(Math.max(event.clientX - rect.left, 0), rect.width));
+  }
+
+  function park() {
+    trackingRef.current = false;
+    setReading(restRef.current);
+  }
+
+  return (
+    <div className={styles.rulerRow}>
+      <div
+        ref={rulerRef}
+        className={styles.ruler}
+        aria-hidden="true"
+        onPointerDown={(event) => {
+          if (motionReduced() || event.pointerType === "mouse") return;
+          event.currentTarget.setPointerCapture(event.pointerId);
+          trackingRef.current = true;
+          setReading(point(event));
+        }}
+        onPointerMove={(event) => {
+          if (motionReduced()) return;
+          if (
+            event.pointerType !== "mouse" &&
+            !event.currentTarget.hasPointerCapture(event.pointerId)
+          ) {
+            return;
+          }
+          trackingRef.current = true;
+          setReading(point(event));
+        }}
+        onPointerUp={(event) => {
+          if (event.pointerType === "mouse") return;
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
+          park();
+        }}
+        onPointerCancel={park}
+        onPointerLeave={(event) => {
+          if (event.pointerType === "mouse") park();
+        }}
+      >
+        {SCALE_MARKS.map((mark) => (
+          <span key={mark} style={{ left: mark }}>
+            {mark}
+          </span>
+        ))}
+        {reading !== null ? (
+          <span
+            className={styles.jaw}
+            data-flip={width - reading < 56 ? true : undefined}
+            style={{ left: reading }}
+          >
+            <span className={styles.jawRead}>{reading}</span>
+          </span>
+        ) : null}
+      </div>
+      <span className={styles.rulerUnit} aria-hidden="true">
+        px
+      </span>
+    </div>
+  );
 }

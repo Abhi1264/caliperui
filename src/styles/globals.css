@@ -1,21 +1,85 @@
 @import "tailwindcss";
 
-@theme {
-  --color-canvas: #184e78;
-  --color-surface: #e4e8ea;
-  --color-raised: #f4f6f7;
-  --color-line: #c5ccd1;
-  --color-ink: #14202b;
-  --color-muted: #5c676e;
-  --color-brass: #e6c98a;
-  --color-stamp: #a33b2b;
-  --color-on-canvas: #e7eef3;
-  --color-on-canvas-muted: #b7c9d6;
+@theme inline {
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-brass: var(--brass);
+  --color-focus: var(--focus);
+  --color-stamp: var(--stamp);
+  --color-on-canvas: var(--on-canvas);
+  --color-on-canvas-muted: var(--on-canvas-muted);
+}
+
+@utility focus-pair {
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 2px var(--color-ink);
 }
 
 :root {
   color-scheme: light;
+  --canvas: #184e78;
+  --surface: #e4e8ea;
+  --raised: #f4f6f7;
+  --line: #c5ccd1;
+  --ink: #14202b;
+  --muted: #5c676e;
+  --brass: #e6c98a;
+  /* Dye and aluminum are 7.1:1 apart, so focus is two strokes: --focus and --ink. */
+  --focus: #e7eef3;
+  --focus-offset: 4px;
+  --stamp: #a33b2b;
+  --on-canvas: #e7eef3;
+  --on-canvas-muted: #b7c9d6;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-brass: var(--brass);
+  --color-focus: var(--focus);
+  --color-stamp: var(--stamp);
+  --color-on-canvas: var(--on-canvas);
+  --color-on-canvas-muted: var(--on-canvas-muted);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #0c2438;
+  --surface: #1c242a;
+  --raised: #2a333a;
+  --line: #4a5660;
+  --ink: #e7eef3;
+  --muted: #a3b1b8;
+  --brass: #e6c98a;
+  --focus: #e7eef3;
+  --focus-offset: 2px;
+  --stamp: #f08a78;
+  --on-canvas: #e7eef3;
+  --on-canvas-muted: #b7c9d6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --canvas: #0c2438;
+    --surface: #1c242a;
+    --raised: #2a333a;
+    --line: #4a5660;
+    --ink: #e7eef3;
+    --muted: #a3b1b8;
+    --brass: #e6c98a;
+    --focus: #e7eef3;
+    --focus-offset: 2px;
+    --stamp: #f08a78;
+    --on-canvas: #e7eef3;
+    --on-canvas-muted: #b7c9d6;
+  }
 }
 
 @layer base {
@@ -84,8 +148,9 @@
 }
 
 .caliper-slider:focus-visible {
-  outline: 2px solid var(--color-brass);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 2px var(--color-ink);
 }
 
 .caliper-slider:disabled {
@@ -119,6 +184,69 @@
   border: 1px solid var(--color-ink);
   border-radius: 0;
   background: var(--color-surface);
+}
+
+.caliper-choice {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-ink);
+  font-size: 14px;
+}
+
+.caliper-choice:has(:disabled) {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.caliper-check,
+.caliper-radio {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex: none;
+  accent-color: var(--color-ink);
+}
+
+.caliper-check:focus-visible,
+.caliper-radio:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 2px var(--color-ink);
+}
+
+.caliper-progress {
+  display: block;
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  border: 0;
+  background: var(--color-line);
+  color: var(--color-ink);
+}
+
+.caliper-progress::-webkit-progress-bar {
+  background: var(--color-line);
+}
+
+.caliper-progress::-webkit-progress-value {
+  background: var(--color-ink);
+}
+
+.caliper-progress::-moz-progress-bar {
+  background: var(--color-ink);
+}
+
+dialog::backdrop {
+  background: color-mix(in srgb, var(--color-canvas) 42%, #05080c);
+}
+
+@media (pointer: coarse) {
+  .caliper-choice {
+    min-height: 44px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

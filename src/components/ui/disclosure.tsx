@@ -18,7 +18,7 @@ export const Disclosure = forwardRef<HTMLDetailsElement, DisclosureProps>(
       className={cn("group rounded-sm border border-line bg-surface", className)}
       {...props}
     >
-      <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 px-3 py-2 text-xs text-ink select-none hover:bg-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass [&::-webkit-details-marker]:hidden">
+      <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 px-3 py-2 text-xs text-ink select-none hover:bg-raised focus-visible:outline-2 focus-visible:outline-focus focus-visible:focus-pair [&::-webkit-details-marker]:hidden">
         <span>{summary}</span>
         <span
           aria-hidden="true"

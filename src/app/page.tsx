@@ -1,4 +1,5 @@
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+import { themeChoice } from "@/lib/theme";
 
 import { Showcase } from "./showcase";
 
@@ -11,7 +12,9 @@ const jsonLd = {
   applicationCategory: "DeveloperApplication",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const theme = await themeChoice();
+
   return (
     <>
       <script
@@ -20,7 +23,7 @@ export default function HomePage() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <Showcase />
+      <Showcase theme={theme} />
     </>
   );
 }

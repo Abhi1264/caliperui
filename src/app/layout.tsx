@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Barlow_Condensed, Public_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { themeChoice } from "@/lib/theme";
 import "../styles/globals.css";
 
 const publicSans = Public_Sans({
@@ -30,12 +31,22 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#184e78",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#184e78" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c2438" },
+  ],
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const theme = await themeChoice();
+
   return (
-    <html lang="en" className={`${publicSans.variable} ${barlowCondensed.variable}`}>
+    <html
+      lang="en"
+      className={`${publicSans.variable} ${barlowCondensed.variable}`}
+      data-theme={theme}
+      suppressHydrationWarning
+    >
       <body>
         {children}
         <Analytics />

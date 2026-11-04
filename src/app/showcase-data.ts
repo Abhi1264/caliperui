@@ -23,6 +23,24 @@ export const COMPONENTS = [
     source: "input.tsx",
   },
   {
+    id: "textarea",
+    name: "Textarea",
+    behavior: "Native textarea",
+    source: "textarea.tsx",
+  },
+  {
+    id: "checkbox",
+    name: "Checkbox",
+    behavior: "Native checkbox and a visible label",
+    source: "checkbox.tsx",
+  },
+  {
+    id: "radio-group",
+    name: "Radio Group",
+    behavior: "Native radios in a fieldset",
+    source: "radio-group.tsx",
+  },
+  {
     id: "dialog",
     name: "Dialog",
     behavior: "Native dialog, controlled or uncontrolled",
@@ -57,6 +75,12 @@ export const COMPONENTS = [
     name: "Gauge",
     behavior: "Native meter and a readout",
     source: "gauge.tsx",
+  },
+  {
+    id: "progress",
+    name: "Progress",
+    behavior: "Native progress bar",
+    source: "progress.tsx",
   },
   {
     id: "slider",
